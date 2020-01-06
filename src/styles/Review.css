@@ -1,0 +1,98 @@
+#REVIEW{
+  margin-left:auto;
+  margin-right: auto;
+  padding: 20px;
+  align-items: center;
+
+}
+
+.he_ad{
+  font-size: 25px;
+  font-family:monospace;
+  font-weight: 800;
+  text-align: center;
+  padding: 30px;
+}
+align body{
+  max-height: 600px;
+  max-width: 600px;
+  margin: auto;
+  padding: 3%;
+}
+img{
+  align-items: center;
+  align: center;
+}
+#myCarousel{
+  border: 10px;
+  border-color: black;
+  box-sizing: border-box;
+}
+.container{
+  height: 600px !important;
+  width: 400px !important;
+  border: 10px;
+  border-color: black;
+}
+.block{
+  border-style: solid;
+  border-width: 1px;
+  min-height: 400px;
+  height: 400px;
+  min-width: 400px auto;
+  width: 400px;
+  padding: 0px;
+  padding-top: 10px;
+}
+.p{
+  align-items: center;
+  text-align: center;
+}
+.review{
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+}
+.center{
+  margin: auto;
+}
+.rimage img{
+  max-width: 50px;
+  height: auto;
+  border-radius: 50%;
+}
+.rimage .rintro{
+  font-weight: bold;
+  font-size: 15px;
+}
+#myCarousel {
+    height: 400px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-control.left, .carousel-control.right {
+   background-image:none !important;
+   filter:none !important;
+}
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 7px;
+    text-indent: 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: inset 1px 1px 1px 1px rgba(0.5,0.5,0.5,0.5);
+
+}
+
+.carousel-indicators .active {
+    width: 10px;
+    height: 10px;
+    margin: 7px;
+    background-color: black;
+
+}

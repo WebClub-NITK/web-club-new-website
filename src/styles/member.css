@@ -3,21 +3,16 @@
   text-align: center;
 }
 .controls {
-    padding: 1rem;
+    padding-top: 1rem;
     font-size: 0.1px;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 900px) {
   .MemberDetails {
     padding: 0;
   }
 }
 
-@media screen and (max-width: 500px) {
-    .controls{
-        padding: 0;
-    }
-  }
 
 /*
 html,
