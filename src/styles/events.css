@@ -4,10 +4,10 @@
 }
 
 .events {
-    padding: 1rem;
+    padding-top: 1rem;
     text-align: center;
   }
-  
+
   @media screen and (max-width: 1000px) {
     .EventDetails{
       padding: 0;

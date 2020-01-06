@@ -6,6 +6,7 @@ import Footer from "./components/footer";
 import Events from "./components/Events/Event";
 import Timeline from "./components/Timeline/timeline";
 import Landing from "./components/landing";
+import Review from "./components/Review/Review";
 class App extends React.Component {
   render() {
     return (
@@ -17,6 +18,7 @@ class App extends React.Component {
             <Route exact path="/timeline" component={Timeline} />
             <Route exact path="/landing" component={Landing} />
           </Switch>
+          <Review/>
           <Footer />
       </Router>
     );
