@@ -3,7 +3,7 @@ class urlApi{
         return 'http://localhost:3000'
     }
     backendDomain(){
-        return 'http://127.0.0.1:8000'
+        return 'http://bharatrajput2409.pythonanywhere.com'
     }
 }
 var instance = new urlApi();

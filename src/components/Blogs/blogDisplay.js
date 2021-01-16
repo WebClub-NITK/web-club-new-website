@@ -27,6 +27,7 @@ class Blog extends Component {
         this.htmlContent = React.createRef()
         this.htmlHeading = React.createRef()
         this.htmlSampleText = React.createRef()
+        this.editblogdiv = React.createRef()
         this.state = {
             content: '',
             loaderStatus: true,
@@ -59,6 +60,7 @@ class Blog extends Component {
         this.htmlContent.current.innerHTML = res.content
         this.htmlHeading.current.innerHTML = res.heading
         this.htmlSampleText.current.innerHTML = res.sample_text
+        this.editblogdiv.current.style.display="block"
     }
     render() {
         let loaderContent = null;
@@ -85,7 +87,7 @@ class Blog extends Component {
                 </div>
                 {loaderContent}
                 {this.state.content}
-                <div className="bg-light">
+                <div className="bg-light" style={{display:'none'}} ref={this.editblogdiv}>
                     <div style={{ maxWidth: '1000px' }} className="mx-auto py-3">
                         <ul className="tags list-inline">
                             {this.state.tagList_}
