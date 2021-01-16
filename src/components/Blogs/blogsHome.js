@@ -83,6 +83,7 @@ class Blogs extends React.Component {
         console.log(response.profileObj)
         console.log(response.profileObj.name)
         console.log(response.profileObj.email)
+        
         window.location.href = urlApi.webDomain()+'/new#/editor?userName=' + response.profileObj.name + '&userEmail=' + response.profileObj.email;
 
     }

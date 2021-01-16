@@ -31,7 +31,7 @@ class BlogCard extends Component {
     render() {
         return (
             <>
-                <div className="col-12 m-0 ">
+                <div className="col-12 m-0">
                     <div className="blog-card my-2">
                         <div className="meta">
                             <div className="photo" style={{background:this.props.color}}><span ref={this.headingFirstChar}></span></div>

@@ -7,7 +7,7 @@ import urlApi from './urlApi'
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";// these two lines are of no use but me be used when we try to send csrf_token with post requset
 axios.defaults.xsrfCookieName = "XCSRF-TOKEN";//csrf_token
 class BlogApi {
-  async postBlog(url, data) {
+  async postBlog(url, data,blog_id) {
     let soup = new jssoup(data)
     let heading = soup.find('h1')
     if (heading == undefined) {
@@ -61,7 +61,8 @@ class BlogApi {
       sample_text: sample_text,
       user_name: 'Bharat singh',
       user_email: 'bharatsinghnitk@gmail.com',
-      tag_list: tag_list
+      tag_list: tag_list,
+      blogId:blog_id
     }
     axios.post(url, data_to_send)
       .then(response => {

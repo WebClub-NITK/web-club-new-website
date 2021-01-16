@@ -24,6 +24,10 @@ class App extends React.Component {
                 <Route exact path="/timeline" component={Timeline} />
                 <Route exact path="/blogs" component={Blogs} />
                 <Route exact path="/editor" component={Editor} />
+                <Route exact path="/editor/editblog/:id" 
+                render={(props) => (
+                  <Editor {...props} newVar={props} isAuthed={true} />
+                )} />
                 <Route exact path="/blogs/:heading" component={Blog} />
               </Switch>
             </Router>

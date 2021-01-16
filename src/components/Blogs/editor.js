@@ -10,30 +10,50 @@ import urlApi from "../../_services/urlApi";
 class Editor extends React.Component {
     constructor(props) {
         super(props)
-        this.publishButton=React.createRef();
-        this.state = { 
-            editorHtml: '', 
-            theme: 'snow' ,
-            userName:'',
-            userEmail:''
+        this.publishButton = React.createRef();
+        this.state = {
+            editorHtml: '',
+            theme: 'snow',
+            userName: '',
+            userEmail: '',
+            blgoId: -1
         }
         this.handleChange = this.handleChange.bind(this)
-        this.postBlog=this.postBlog.bind(this)
+        this.postBlog = this.postBlog.bind(this)
     }
 
     handleChange(html) {
         this.setState({ editorHtml: html }); //quill function to update editor html
     }
-    async postBlog(){
-        let data_to_send = this.state.editorHtml
-        console.log(data_to_send)
-        this.publishButton.current.style.display='none' //hiding publish button
-        let res = await BlogApi.postBlog(urlApi.backendDomain()+'/addblog', data_to_send);
-        console.log(res)
-        if(res==undefined){
-            this.publishButton.current.style.display='block'; //unhide publish button if failed to publish blog
+    async componentDidMount() {
+        if (this.props.match.params.id != undefined) {
+            console.log(this.props.match.params.id)
+            this.setState({
+                blgoId: this.props.match.params.id
+            })
+            let res = await BlogApi.loadBlogWithId(this.props.match.params.id)
+            let tag_list=[]
+            for(let i=0;i<res.tags.length;i++){
+                tag_list.push(`#${res.tags[i]}`)
+            }
+            let data=`<h1>${res.heading}</h1><p>${res.sample_text}</p><p>${res.content}</p><p>${tag_list}</p>`;
+
+            this.setState({
+                editorHtml:data
+            })
+            console.log(res)
         }
 
+    }
+    async postBlog() {
+        let data_to_send = this.state.editorHtml
+        console.log(data_to_send)
+        this.publishButton.current.style.display = 'none' //hiding publish button
+        let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);
+        console.log(res)
+        if (res == undefined) {
+            this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog
+        }
     }
 
     render() {
@@ -70,7 +90,7 @@ Editor.modules = {
         [{ size: [] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' },
-        { 'indent': '-1' }, { 'indent': '+1' }, { 'color': ['#000000', 'red','green','blue','pink','lightgrey','Tomato','MediumSeaGreen','Violet','SlateBlue'] }],
+        { 'indent': '-1' }, { 'indent': '+1' }, { 'color': ['#000000', 'red', 'green', 'blue', 'pink', 'lightgrey', 'Tomato', 'MediumSeaGreen', 'Violet', 'SlateBlue'] }],
         ['link', 'image'],
         [{
             handlers: {
