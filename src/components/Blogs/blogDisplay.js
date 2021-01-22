@@ -32,10 +32,11 @@ class Blog extends Component {
             content: '',
             loaderStatus: true,
             blogId: null,
-            tagList_:[]
+            tagList_: []
         }
     }
     async componentDidMount() {
+        
         let blogid = queryString.parse(this.props.location.search).id
         let res = await BlogApi.loadBlogWithId(blogid)
         this.setState({ blogId: blogid })
@@ -48,19 +49,19 @@ class Blog extends Component {
             </div>
         </div>
         let tag_list = []
-        let counter
-        for (let i = 0; i < res.tags.length; i++) {
-            tag_list.push(<li className="list-inline-item" key={counter++} style={{background:'tomato',padding:'5px 10px',borderRadius:'4px'}} >{res.tags[i]}</li>)
+        let counter = 0;
+        for (let i = 0; i < res.tag_list.length; i++){
+            tag_list.push(<li className="list-inline-item" key={counter++} style={{ background: 'tomato', padding: '5px 10px', borderRadius: '4px' }} >{res.tag_list[i]}</li>)
         }
         this.setState({
             content: temp,
             loaderStatus: false,
-            tagList_:tag_list
+            tagList_: tag_list
         })
         this.htmlContent.current.innerHTML = res.content
         this.htmlHeading.current.innerHTML = res.heading
         this.htmlSampleText.current.innerHTML = res.sample_text
-        this.editblogdiv.current.style.display="block"
+        this.editblogdiv.current.style.display = "block"
     }
     render() {
         let loaderContent = null;
@@ -87,7 +88,7 @@ class Blog extends Component {
                 </div>
                 {loaderContent}
                 {this.state.content}
-                <div className="bg-light" style={{display:'none'}} ref={this.editblogdiv}>
+                <div className="bg-light" style={{ display: 'none' }} ref={this.editblogdiv}>
                     <div style={{ maxWidth: '1000px' }} className="mx-auto py-3">
                         <ul className="tags list-inline">
                             {this.state.tagList_}
