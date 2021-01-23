@@ -4,17 +4,42 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect, HttpResponse
 import json
+from django.core.exceptions import FieldDoesNotExist
 import datetime
 import ast
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+#
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 # Create your views here.
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    client_class = OAuth2Client
+    
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        content = {'message': 'Hello, World!'}
+        print(request.user)
+        return Response(content)
 
 
 def homepage(request):
 
     return HttpResponse('<h1>bharat singh</h1>')
 
-
 # this is of no use as sorting blogs is done on react side
+
+
 def searchBlogWithTag(request):
     tagName = request.GET['tagName']
     print(tagName)
@@ -22,8 +47,7 @@ def searchBlogWithTag(request):
     searchedBlogs = []
     for k in blogwithtag:
         print(k['blog'])
-        searchedBlogs += [blogs.objects.values('id',
-                                               'heading').get(id=k['blog'])]
+        searchedBlogs += [blogs.objects.values('id','heading').get(id=k['blog'])]
     print(blogwithtag)
     print(searchedBlogs)
     return JsonResponse({'searchedBlogs': searchedBlogs})

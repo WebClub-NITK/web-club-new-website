@@ -10,6 +10,7 @@ import BlogApi from "../../_services/blogApi";
 import urlApi from "../../_services/urlApi";
 import GoogleLogin from 'react-google-login'
 import ReactPaginate from 'react-paginate';
+import authApi from '../../_services/authApi'
 
 
 class Blogs extends React.Component {
@@ -78,19 +79,31 @@ class Blogs extends React.Component {
 
 
     }
-    responseGoogle = (response) => {
-        console.log(response)
-        console.log(response.profileObj)
-        console.log(response.profileObj.name)
-        console.log(response.profileObj.email)
-        
-        window.location.href = urlApi.webDomain()+'/new#/editor?userName=' + response.profileObj.name + '&userEmail=' + response.profileObj.email;
+    responseGoogle = async (response) => {
+        // console.log(response.tokenObj.access_token)
+        // console.log(response.profileObj.googleId)
+        // console.log(response.profileObj.name)
+        // console.log(response.profileObj.email)
+        let usernamepatt = /\S+@/;
+        let username = usernamepatt.exec(response.profileObj.email)
+        username = username[0];
+        username = username.substr(0, username.length - 1);
+        var data = {
+            username: username,
+            name: response.profileObj.name,
+            access_token: response.tokenObj.access_token,
+            email: response.profileObj.email
+        }
+        let res = await authApi.login(data);
+        // console.log(res)
+
+        // window.location.href = urlApi.webDomain()+'/new#/editor?userName=' + response.profileObj.name + '&userEmail=' + response.profileObj.email;
 
     }
     handlePageClick = (k) => {
         console.log(k.selected)
         this.setState({
-            currentPage:k.selected+1
+            currentPage: k.selected + 1
         })
     }
 
