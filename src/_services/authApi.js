@@ -16,7 +16,7 @@ class authApi{
         axios.post(urlApi.backendDomain()+'/rest-auth/google/',
         { 
             access_token:data.access_token,
-         })
+        })
         .then((res)=>{
             if(res.status===200){
                 console.log(res.data)
@@ -27,12 +27,12 @@ class authApi{
                 let res= await spreadSheetApi.getWorkSheetData(membersWorkSheetId);
                 let member=false;
                 for(let i=0;i<res.length;i++){
-                    if(res[i].email==data.email){
+                    if(res[i].email===data.email){
                         member=true;
                         break;
                     }
                 }
-                if(member==true){
+                if(member===true){
 
                 }
             }

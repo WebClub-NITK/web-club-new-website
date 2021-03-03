@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import ReactQuill, { Quill } from 'react-quill';
+import React from 'react'
+import ReactQuill from 'react-quill';
 import '../../styles/editor.css'
 import "../../styles/blog.css";
 import Nav from "../Nav/Nav";
-import { data } from 'jquery';
+// import { data } from 'jquery';
 import BlogApi from "../../_services/blogApi";
 import urlApi from "../../_services/urlApi";
 
@@ -26,7 +26,7 @@ class Editor extends React.Component {
         this.setState({ editorHtml: html }); //quill function to update editor html
     }
     async componentDidMount() {
-        if (this.props.match.params.id != undefined) {
+        if (this.props.match.params.id !== undefined) {
             console.log(this.props.match.params.id)
             this.setState({
                 blgoId: this.props.match.params.id
@@ -51,7 +51,7 @@ class Editor extends React.Component {
         this.publishButton.current.style.display = 'none' //hiding publish button
         let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);
         console.log(res)
-        if (res == undefined) {
+        if (res === undefined) {
             this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog
         }
     }
@@ -95,7 +95,7 @@ Editor.modules = {
         [{
             handlers: {
                 'color': function (value) {
-                    if (value == 'custom-color') value = window.prompt('Enter Hex Color Code');
+                    if (value === 'custom-color') value = window.prompt('Enter Hex Color Code');
                     this.quill.format('color', value);
                 }
             }

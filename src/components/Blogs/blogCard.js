@@ -4,7 +4,7 @@ class BlogCard extends Component {
     constructor(props) {
         super(props)
         this.htmlContent = React.createRef()
-        this.htmlHeading = React.createRef()
+        // this.htmlHeading = React.createRef()
         this.headingFirstChar = React.createRef()
         this.state = {
             tagList:[],
@@ -14,7 +14,7 @@ class BlogCard extends Component {
     }
     componentDidMount = () => {
         this.htmlContent.current.innerHTML = this.props.sample_text;
-        this.htmlHeading.current.innerHTML = this.props.heading;
+        // this.htmlHeading.current.innerHTML = this.props.heading;
         let counter=0;
         let htmlTagList=this.props.tagList.map(element=>{
             return <li className="list-inline-item" key={counter++} style={{background:this.props.color}}>{element}</li>
@@ -41,7 +41,7 @@ class BlogCard extends Component {
                             </ul>
                         </div>
                         <div className="description">
-                            <h1 className="py-2" ref={this.htmlHeading}></h1>
+                            <h1 className="py-2" >{this.props.heading}</h1>
                             <p ref={this.htmlContent}> </p>
                             <ul className="tags list-inline">
                                 {this.state.tagList}                                

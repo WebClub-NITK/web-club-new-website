@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import "../../styles/blog.css";
 import Nav from "../Nav/Nav";
-import axios from 'axios';
+// import axios from 'axios';
 import Helmet from "react-helmet";
 import BlogApi from "../../_services/blogApi";
-import urlApi from "../../_services/urlApi";
+// import urlApi from "../../_services/urlApi";
 import queryString from 'query-string';
 import Loader from "react-loader-spinner";
 import { Link } from 'react-router-dom'
 import {
     FacebookShareButton,
-    LinkedinShareButton,
-    TwitterShareButton,
+    // LinkedinShareButton,
+    // TwitterShareButton,
     WhatsappShareButton
 } from "react-share";
 import {
     FacebookIcon,
-    LinkedinIcon,
-    TwitterIcon,
+    // LinkedinIcon,
+    // TwitterIcon,
     WhatsappIcon
 } from "react-share";
 

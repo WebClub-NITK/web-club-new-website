@@ -7,7 +7,7 @@ import Loader from "react-loader-spinner";
 import BlogCard from './blogCard'
 import Helmet from "react-helmet";
 import BlogApi from "../../_services/blogApi";
-import urlApi from "../../_services/urlApi";
+// import urlApi from "../../_services/urlApi";
 import GoogleLogin from 'react-google-login'
 import ReactPaginate from 'react-paginate';
 import authApi from '../../_services/authApi'
@@ -60,12 +60,12 @@ class Blogs extends React.Component {
             let tag_list = temp[i].props.tagList
             let flag = 0;
             for (let j = 0; j < tag_list.length; j++) {
-                if (tag_list[j].substr(0, inputLen) == inputValue) {
+                if (tag_list[j].substr(0, inputLen) === inputValue) {
                     flag = 1;
                     break;
                 }
             }
-            if (flag == 1) {
+            if (flag === 1) {
                 let swap_temp = temp[k];
                 temp[k] = temp[i];
                 temp[i] = swap_temp;
@@ -95,7 +95,7 @@ class Blogs extends React.Component {
             email: response.profileObj.email
         }
         let res = await authApi.login(data);
-        // console.log(res)
+        console.log(res)
 
         // window.location.href = urlApi.webDomain()+'/new#/editor?userName=' + response.profileObj.name + '&userEmail=' + response.profileObj.email;
 

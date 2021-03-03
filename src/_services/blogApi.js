@@ -10,9 +10,9 @@ class BlogApi {
   async postBlog(url, data,blog_id) {
     let soup = new jssoup(data)
     let heading = soup.find('h1')
-    if (heading == undefined) {
+    if (heading === undefined) {
       heading = soup.find('h2')
-      if (heading == undefined) {
+      if (heading === undefined) {
         new Noty({
           text: "System could not auto-detect heading please enclose heading in h1 or h2 tag",
           layout: "topRight",
@@ -23,7 +23,7 @@ class BlogApi {
       }
     }
     let sample_text = soup.find('p')
-    if (sample_text == undefined) {
+    if (sample_text === undefined) {
       new Noty({
         text: "System could not auto-detect sample text first paragraph will be taken as sample text",
         layout: "topRight",
@@ -46,7 +46,7 @@ class BlogApi {
       return '';
     })
     // console.log(tag_list)
-    if (tag_list.length == 0) {
+    if (tag_list.length === 0) {
       new Noty({
         text: "Please include some topic tag i.e #programming #ml",
         layout: "topRight",
