@@ -53,9 +53,9 @@ const Menu = ({ open, setOpen }) => {
             <Link to="/members" onClick={() => setOpen(!open)}>
                 Team
             </Link>
-            <Link to="/timeline" onClick={() => setOpen(!open)}>
+            {/* <Link to="/timeline" onClick={() => setOpen(!open)}>
                 Timeline
-            </Link>
+            </Link> */}
             <Link to="/blogs" onClick={() => setOpen(!open)}>
             Blogs
           </Link>

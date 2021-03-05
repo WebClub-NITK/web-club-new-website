@@ -14,8 +14,6 @@ class Editor extends React.Component {
         this.state = {
             editorHtml: '',
             theme: 'snow',
-            userName: '',
-            userEmail: '',
             blgoId: -1
         }
         this.handleChange = this.handleChange.bind(this)
@@ -26,15 +24,18 @@ class Editor extends React.Component {
         this.setState({ editorHtml: html }); //quill function to update editor html
     }
     async componentDidMount() {
-        if (this.props.match.params.id !== undefined) {
-            console.log(this.props.match.params.id)
+        let id=this.props.match.params.id;
+        if ( id !== undefined) {
+            console.log(id+"blogid")
             this.setState({
-                blgoId: this.props.match.params.id
+                blgoId: id
             })
             let res = await BlogApi.loadBlogWithId(this.props.match.params.id)
+            console.log()
+            let tags=res.tag_list;
             let tag_list=[]
-            for(let i=0;i<res.tags.length;i++){
-                tag_list.push(`#${res.tags[i]}`)
+            for(let i=0;i<tags.length;i++){
+                tag_list.push(`#${tags[i]}`)
             }
             let data=`<h1>${res.heading}</h1><p>${res.sample_text}</p><p>${res.content}</p><p>${tag_list}</p>`;
 
@@ -49,7 +50,7 @@ class Editor extends React.Component {
         let data_to_send = this.state.editorHtml
         console.log(data_to_send)
         this.publishButton.current.style.display = 'none' //hiding publish button
-        let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);
+        let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);        
         console.log(res)
         if (res === undefined) {
             this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog

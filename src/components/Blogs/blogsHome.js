@@ -2,6 +2,7 @@ import React from "react";
 import "../../styles/home.css";
 import "../../styles/blog.css";
 import imageUrl from "../../assets/images/blog_img.png";
+import googlelogo from "../../assets/images/google-logo.svg";
 import Nav from "../Nav/Nav";
 import Loader from "react-loader-spinner";
 import BlogCard from './blogCard'
@@ -15,7 +16,12 @@ import urlApi from '../../_services/urlApi'
 import { Redirect } from 'react-router'
 import AuthContext from './../../_services/AuthContext'
 import Blog from "./blogDisplay";
-
+import axios from 'axios';
+import {
+    membersWorkSheetId,
+    // profileImagesRepositoryURL,
+} from "./../../environment";
+import SpreadSheetApi from './../../_services/spreadSheetApi'
 
 
 class Blogs extends React.Component {
@@ -44,6 +50,7 @@ class Blogs extends React.Component {
         var temp = blogsList.map(element => {
             let tags = element.tags
             element = element.blog
+            console.log(element);
             return <BlogCard key={element.id} color={color_arr[(counter++) % 10]} blogsid={element.id} tagList={tags} heading={element.heading} date={element.date} writer={element.user_name} sample_text={element.sample_text} />
         });
         this.setState({ allBlogs: temp, loaderStatus: false })
@@ -90,14 +97,16 @@ class Blogs extends React.Component {
         var data = {
             token: response.tokenId
         }
+        console.log(response.tokenId);
         let res = await authApi.login(data);
         console.log(res)
         if (res === true) {
-            console.log("in redirect")
-            // this.context.login();
+            this.context.login();
             this.setState({
                 redirectToHome: true
             })
+        }else{
+            this.context.logout();
         }
     }
     handlePageClick = (k) => {
@@ -106,14 +115,9 @@ class Blogs extends React.Component {
             currentPage: k.selected + 1
         })
     }
-    tempfun = async () => {
-        let data = {
-            token: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImU4NzMyZGIwNjI4NzUxNTU1NjIxM2I4MGFjYmNmZDA4Y2ZiMzAyYTkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDUwODU3MjY1NzYwLWg0bjA3dm1hNDdvZnFybmEya3RjbG01cnZnZzNmMjRsLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDUwODU3MjY1NzYwLWg0bjA3dm1hNDdvZnFybmEya3RjbG01cnZnZzNmMjRsLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA5Nzk3MjQyNDEwNDQ2NzY3Mjg0IiwiZW1haWwiOiJiaGFyYXRyYWpwdXQyNDA5QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiYWxydXRvVVk4RGVXYUZPTFZ4bDhwUSIsIm5hbWUiOiJiaGFyYXQgc2luZ2ggc2hla2hhd2F0IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdoeVdfcG13LVBmVXJ4bzd5amxTMWtWc1czbnBNYlFqVEFoYjhRYj1zOTYtYyIsImdpdmVuX25hbWUiOiJiaGFyYXQiLCJmYW1pbHlfbmFtZSI6InNpbmdoIHNoZWtoYXdhdCIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjE0OTM4MzUxLCJleHAiOjE2MTQ5NDE5NTEsImp0aSI6IjlmNTA1NDNkYzk5YzQwNzk3ZjQ4YTNiNjBjMzk4N2RlNThhOGQ0N2EifQ.dVlAfsAwufUc_9Th1H8Euox7E7ySytfqEtkY_3PptrogCjO0QxL0tRc14L8iTlFyoST5HKQrWYKrCGcUIHYQiDQA2_JYzywU6R4C0DFpMwoQ4BHzcgzJ-ZUArt-a9eBFSHnpKoGo9MkvI8k4sbVO6HHE5Ugm3aZ-DeSMHk5UL0dG2oUNnoHWgUb6mtZ4bkqjK4yf-9av_qGWKkjeYgXqKdGWaTzJx7aS3V0JzMCAOxQHoMPaHbj4frsvoyn28mPIlEL3qbrmZF6euTW4FyDohTmCJFDLUaYELr2Ls51B3uj91rWc6KDwnxTozWle0_s0lFyWGtCsYXOfUjSOOp2B5g"
-        }
-        let res = await authApi.login(data);
-
-        console.log(res + "ans");
-    }
+    // tempfun = async () => {
+        
+    // }
     render() {
         const { blogsPerPage, loaderStatus, allBlogs, currentPage, redirectToHome } = this.state
         let loaderContent = null;
@@ -149,12 +153,13 @@ class Blogs extends React.Component {
                                     buttonText="Login"
                                     onSuccess={this.responseGoogle}
                                     onFailure={this.responseGoogle}
+                                    ex
                                     render={renderProps => (
-                                        <button className="my-btn" onClick={renderProps.onClick} disabled={renderProps.disabled}>Write Blog</button>
+                                        <button className="my-btn d-flex flex-row" onClick={renderProps.onClick} disabled={renderProps.disabled}><img style={{width:'30px'}} src={googlelogo}/><span style={{paddingTop:'4px'}}>Write Blog</span></button>
                                     )}
                                     cookiePolicy={'single_host_origin'}
                                 />
-                                <button onClick={this.tempfun}>tempbutton</button>
+                                {/* <button onClick={this.tempfun}>tempbutton</button> */}
                             </div>
                             <img className="bg-image" width="700" src={imageUrl} alt="" />
                         </div>

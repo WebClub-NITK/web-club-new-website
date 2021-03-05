@@ -9,18 +9,25 @@ import Editor from "./components/Blogs/editor";
 import BlogsHome from "./components/Blogs/blogsHome";
 import Blog from "./components/Blogs/blogDisplay";
 // import Myproject from "./components/mystuff/project";
-import {AuthContextProvider} from './_services/AuthContext'
+import { AuthContextProvider } from './_services/AuthContext'
 import pagenotfound from './components/pagenotfound'
+import authApi from './_services/authApi'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
-
     this.state = {
       logedIn: false
     }
   }
-
+  componentDidMount = async () => {
+    let loged_in = await authApi.validateToken();    
+    if (loged_in === true) {
+      this.setState({
+        logedIn: true
+      })
+    }
+  }
   login = () => {
     this.setState({
       logedIn: true
@@ -35,9 +42,9 @@ class App extends React.Component {
   render() {
     var privateUrl;
     if (this.state.logedIn) {
-      privateUrl = [<Route exact path="/editor" component={Editor} key="1" />, <Route exact path="/editor/editblog" component={Editor} key="2" />];
+      privateUrl = [<Route exact path="/editor" component={Editor} key="1" />, <Route exact path="/editor/editblog/:id" component={Editor} key="2" />];
     } else {
-      privateUrl = [<Route component={pagenotfound} key={1} />];
+      privateUrl = <Route component={pagenotfound} />;
     }
     return (
       <>
@@ -49,10 +56,12 @@ class App extends React.Component {
                 <Route exact path="/members" component={Members} />
                 <Route exact path="/events" component={Events} />
                 <Route exact path="/timeline" component={Timeline} />
-                <AuthContextProvider value={{isLogedIn:this.state.logedIn,login:this.login,logout:this.logout}} >
-                  <Route exact path="/blogs" component={BlogsHome} />
-                  <Route exact path="/blogs/:heading" component={Blog} />
-                  {privateUrl}
+                <AuthContextProvider value={{ isLogedIn: this.state.logedIn, login: this.login, logout: this.logout }} >
+                  <Switch>
+                    <Route exact path="/blogs" component={BlogsHome} />
+                    <Route exact path="/blogs/:heading" component={Blog} />
+                    {privateUrl}
+                  </Switch>
                 </AuthContextProvider>
                 <Route component={pagenotfound} />
               </Switch>
