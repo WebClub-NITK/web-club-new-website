@@ -11,6 +11,11 @@ import BlogApi from "../../_services/blogApi";
 import GoogleLogin from 'react-google-login'
 import ReactPaginate from 'react-paginate';
 import authApi from '../../_services/authApi'
+import urlApi from '../../_services/urlApi'
+import { Redirect } from 'react-router'
+import AuthContext from './../../_services/AuthContext'
+import Blog from "./blogDisplay";
+
 
 
 class Blogs extends React.Component {
@@ -20,12 +25,14 @@ class Blogs extends React.Component {
         this.searchForm = React.createRef()
         this.searchInput = React.createRef()
         this.activePageLink = React.createRef()
+        this.authContext = React.createContext(AuthContext)
         this.state = {
             allBlogs: [],
             searchResult: [],
             loaderStatus: true,
             blogsPerPage: 10,
-            currentPage: 1
+            currentPage: 1,
+            redirectToHome: 0
         };
         this.searchBlogs = this.searchBlogs.bind(this)
     }
@@ -80,25 +87,18 @@ class Blogs extends React.Component {
 
     }
     responseGoogle = async (response) => {
-        // console.log(response.tokenObj.access_token)
-        // console.log(response.profileObj.googleId)
-        // console.log(response.profileObj.name)
-        // console.log(response.profileObj.email)
-        let usernamepatt = /\S+@/;
-        let username = usernamepatt.exec(response.profileObj.email)
-        username = username[0];
-        username = username.substr(0, username.length - 1);
         var data = {
-            username: username,
-            name: response.profileObj.name,
-            access_token: response.tokenObj.access_token,
-            email: response.profileObj.email
+            token: response.tokenId
         }
         let res = await authApi.login(data);
         console.log(res)
-
-        // window.location.href = urlApi.webDomain()+'/new#/editor?userName=' + response.profileObj.name + '&userEmail=' + response.profileObj.email;
-
+        if (res === true) {
+            console.log("in redirect")
+            // this.context.login();
+            this.setState({
+                redirectToHome: true
+            })
+        }
     }
     handlePageClick = (k) => {
         console.log(k.selected)
@@ -106,9 +106,16 @@ class Blogs extends React.Component {
             currentPage: k.selected + 1
         })
     }
+    tempfun = async () => {
+        let data = {
+            token: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImU4NzMyZGIwNjI4NzUxNTU1NjIxM2I4MGFjYmNmZDA4Y2ZiMzAyYTkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDUwODU3MjY1NzYwLWg0bjA3dm1hNDdvZnFybmEya3RjbG01cnZnZzNmMjRsLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDUwODU3MjY1NzYwLWg0bjA3dm1hNDdvZnFybmEya3RjbG01cnZnZzNmMjRsLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA5Nzk3MjQyNDEwNDQ2NzY3Mjg0IiwiZW1haWwiOiJiaGFyYXRyYWpwdXQyNDA5QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiYWxydXRvVVk4RGVXYUZPTFZ4bDhwUSIsIm5hbWUiOiJiaGFyYXQgc2luZ2ggc2hla2hhd2F0IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdoeVdfcG13LVBmVXJ4bzd5amxTMWtWc1czbnBNYlFqVEFoYjhRYj1zOTYtYyIsImdpdmVuX25hbWUiOiJiaGFyYXQiLCJmYW1pbHlfbmFtZSI6InNpbmdoIHNoZWtoYXdhdCIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjE0OTM4MzUxLCJleHAiOjE2MTQ5NDE5NTEsImp0aSI6IjlmNTA1NDNkYzk5YzQwNzk3ZjQ4YTNiNjBjMzk4N2RlNThhOGQ0N2EifQ.dVlAfsAwufUc_9Th1H8Euox7E7ySytfqEtkY_3PptrogCjO0QxL0tRc14L8iTlFyoST5HKQrWYKrCGcUIHYQiDQA2_JYzywU6R4C0DFpMwoQ4BHzcgzJ-ZUArt-a9eBFSHnpKoGo9MkvI8k4sbVO6HHE5Ugm3aZ-DeSMHk5UL0dG2oUNnoHWgUb6mtZ4bkqjK4yf-9av_qGWKkjeYgXqKdGWaTzJx7aS3V0JzMCAOxQHoMPaHbj4frsvoyn28mPIlEL3qbrmZF6euTW4FyDohTmCJFDLUaYELr2Ls51B3uj91rWc6KDwnxTozWle0_s0lFyWGtCsYXOfUjSOOp2B5g"
+        }
+        let res = await authApi.login(data);
 
+        console.log(res + "ans");
+    }
     render() {
-        const { blogsPerPage, loaderStatus, allBlogs, currentPage } = this.state
+        const { blogsPerPage, loaderStatus, allBlogs, currentPage, redirectToHome } = this.state
         let loaderContent = null;
         if (loaderStatus) {
             loaderContent = <Loader type="TailSpin" color="#00BFFF" height={100} width={100} />
@@ -125,6 +132,7 @@ class Blogs extends React.Component {
                     <title>Blogs</title>
                 </Helmet>
                 <div>
+                    {redirectToHome && <Redirect to={"/editor"} />}
                     <div>
                         <Nav sticky="false" transp="false" />
                         <div className="main-image center-flex" style={{ background: 'white' }}>
@@ -146,6 +154,7 @@ class Blogs extends React.Component {
                                     )}
                                     cookiePolicy={'single_host_origin'}
                                 />
+                                <button onClick={this.tempfun}>tempbutton</button>
                             </div>
                             <img className="bg-image" width="700" src={imageUrl} alt="" />
                         </div>
@@ -187,5 +196,5 @@ class Blogs extends React.Component {
         );
     }
 }
-
+Blogs.contextType = AuthContext;
 export default Blogs;

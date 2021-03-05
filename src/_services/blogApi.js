@@ -13,23 +13,29 @@ class BlogApi {
     if (heading === undefined) {
       heading = soup.find('h2')
       if (heading === undefined) {
-        new Noty({
+        let noty1=new Noty({
           text: "System could not auto-detect heading please enclose heading in h1 or h2 tag",
           layout: "topRight",
           theme: "bootstrap-v4",
           type: 'error'
         }).show()
+        setTimeout(() => {
+          noty1.close();
+        }, 8000);
         return;
       }
     }
     let sample_text = soup.find('p')
     if (sample_text === undefined) {
-      new Noty({
+      let noty1=new Noty({
         text: "System could not auto-detect sample text first paragraph will be taken as sample text",
         layout: "topRight",
         theme: "bootstrap-v4",
         type: 'error'
       }).show()
+      setTimeout(() => {
+        noty1.close();
+      }, 8000);
       return;
     }
     await sample_text.extract()
@@ -47,12 +53,15 @@ class BlogApi {
     })
     // console.log(tag_list)
     if (tag_list.length === 0) {
-      new Noty({
+      let noty1=new Noty({
         text: "Please include some topic tag i.e #programming #ml",
         layout: "topRight",
         theme: "bootstrap-v4",
         type: 'error'
       }).show()
+      setTimeout(() => {
+        noty1.close();
+      }, 8000);
       return;
     }
     let data_to_send = {
@@ -66,12 +75,15 @@ class BlogApi {
     }
     axios.post(url, data_to_send)
       .then(response => {
-        new Noty({
+        let noty1=new Noty({
           text: "Blog Published Successfully...",
           layout: "topRight",
           theme: "bootstrap-v4",
           type: 'success'
         }).show()
+        setTimeout(() => {
+          noty1.close();
+        }, 8000);
         window.location.href= urlApi.webDomain()+'/new#/blogs'
       })
       .catch(error => {

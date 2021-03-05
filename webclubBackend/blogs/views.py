@@ -15,15 +15,32 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from google.oauth2 import id_token
+from google.auth.transport import requests
 # Create your views here.
 
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from rest_auth.registration.views import SocialLoginView
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
-    client_class = OAuth2Client
-    
+# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+# from rest_auth.registration.views import SocialLoginView
+# from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+# class GoogleLogin(SocialLoginView):
+#     adapter_class = GoogleOAuth2Adapter
+#     client_class = OAuth2Client
+
+def validate_google_login_token(request):
+    a = request.body
+    print(a)
+    temp = json.loads(a)
+    token=temp['token']
+    print(token)
+    idinfo = id_token.verify_oauth2_token(token, requests.Request(), "450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com")
+    print(idinfo)
+    if idinfo['email_verified']:
+        #valid user
+        return HttpResponse('valid token',status=200)
+    else:
+        #invalid user3
+        return HttpResponse('in valid token')
+
 class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
 

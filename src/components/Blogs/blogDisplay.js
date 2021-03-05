@@ -21,7 +21,7 @@ import {
     WhatsappIcon
 } from "react-share";
 
-class Blog extends Component {
+class BlogHome extends Component {
     constructor(props) {
         super(props)
         this.htmlContent = React.createRef()
@@ -101,4 +101,4 @@ class Blog extends Component {
     }
 }
 
-export default Blog
+export default BlogHome

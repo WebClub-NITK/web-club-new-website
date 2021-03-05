@@ -6,12 +6,39 @@ import Footer from "./components/footer";
 import Events from "./components/Events/Event";
 import Timeline from "./components/Timeline/timeline";
 import Editor from "./components/Blogs/editor";
-import Blogs from "./components/Blogs/blogsHome";
+import BlogsHome from "./components/Blogs/blogsHome";
 import Blog from "./components/Blogs/blogDisplay";
 // import Myproject from "./components/mystuff/project";
+import {AuthContextProvider} from './_services/AuthContext'
+import pagenotfound from './components/pagenotfound'
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      logedIn: false
+    }
+  }
+
+  login = () => {
+    this.setState({
+      logedIn: true
+    })
+  }
+  logout = () => {
+    this.setState({
+      logedIn: false
+    })
+  }
+
   render() {
+    var privateUrl;
+    if (this.state.logedIn) {
+      privateUrl = [<Route exact path="/editor" component={Editor} key="1" />, <Route exact path="/editor/editblog" component={Editor} key="2" />];
+    } else {
+      privateUrl = [<Route component={pagenotfound} key={1} />];
+    }
     return (
       <>
         <div id="wrapper" className="d-flex flex-column">
@@ -22,13 +49,12 @@ class App extends React.Component {
                 <Route exact path="/members" component={Members} />
                 <Route exact path="/events" component={Events} />
                 <Route exact path="/timeline" component={Timeline} />
-                <Route exact path="/blogs" component={Blogs} />
-                <Route exact path="/editor" component={Editor} />
-                <Route exact path="/editor/editblog/:id" 
-                render={(props) => (
-                  <Editor {...props} newVar={props} isAuthed={true} />
-                )} />
-                <Route exact path="/blogs/:heading" component={Blog} />
+                <AuthContextProvider value={{isLogedIn:this.state.logedIn,login:this.login,logout:this.logout}} >
+                  <Route exact path="/blogs" component={BlogsHome} />
+                  <Route exact path="/blogs/:heading" component={Blog} />
+                  {privateUrl}
+                </AuthContextProvider>
+                <Route component={pagenotfound} />
               </Switch>
             </Router>
           </main>
