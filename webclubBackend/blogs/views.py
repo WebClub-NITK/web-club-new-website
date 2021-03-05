@@ -3,72 +3,59 @@ from .models import blogs, tag, taginblog
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect, HttpResponse
-import json
-from django.core.exceptions import FieldDoesNotExist
-import datetime
-import ast
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-#
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from google.oauth2 import id_token
 from google.auth.transport import requests
-# Create your views here.
+from django.core.exceptions import FieldDoesNotExist
+import random,string
+import json
+import datetime
+import ast
 
-# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-# from rest_auth.registration.views import SocialLoginView
-# from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-# class GoogleLogin(SocialLoginView):
-#     adapter_class = GoogleOAuth2Adapter
-#     client_class = OAuth2Client
+# def create_club_member_data(request): can be used to set users from spreadsheet to db
+#     a=json.loads(request.body)
+#     # print(a)
+#     for k in a['user_data']:
+#         name=k['name']
+#         email=k['email']
+#         username=k['email'].split("@")[0]
+#         password = ''.join(random.choices(string.ascii_uppercase+string.digits, k = 10)) 
+#         print(password)
+#         User.objects.create_user(username=username,first_name=name,email=email,password=password)
+#     return HttpResponse("added")
+def getUser(token):
+    try:
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(), "450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com")
+        if idinfo['email_verified'] and idinfo['aud']=="450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com":
+            try:
+                user=User.objects.get(email=idinfo['email'])
+                return user
+            except:
+                return -2        #not member of club
+        else:
+            return -1
+    except ValueError:
+        return -1
+
 
 def validate_google_login_token(request):
     a = request.body
-    print(a)
     temp = json.loads(a)
     token=temp['token']
-    print(token)
-    idinfo = id_token.verify_oauth2_token(token, requests.Request(), "450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com")
-    print(idinfo)
-    if idinfo['email_verified']:
-        #valid user
-        return HttpResponse('valid token',status=200)
+    user=getUser(token)
+    if user==-1 :
+        return HttpResponse("Invalid Access Token Please login",status=401)
+    elif user==-2:
+        return HttpResponse("Invalid Access Token Please login",status=403 )
     else:
-        #invalid user3
-        return HttpResponse('in valid token')
+        return HttpResponse(user.email,status=200)
 
-class HelloView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        content = {'message': 'Hello, World!'}
-        print(request.user)
-        return Response(content)
-
-
-def homepage(request):
-
-    return HttpResponse('<h1>bharat singh</h1>')
-
-# this is of no use as sorting blogs is done on react side
-
-
-def searchBlogWithTag(request):
-    tagName = request.GET['tagName']
-    print(tagName)
-    blogwithtag = taginblog.objects.filter(tag__name=tagName).values('blog')
-    searchedBlogs = []
-    for k in blogwithtag:
-        print(k['blog'])
-        searchedBlogs += [blogs.objects.values('id','heading').get(id=k['blog'])]
-    print(blogwithtag)
-    print(searchedBlogs)
-    return JsonResponse({'searchedBlogs': searchedBlogs})
-
+def home(request):
+    return HttpResponse("On home page")
 
 def loadBlogs(request):  # this will load all blogs on /blogs path
     blog_obj = blogs.objects.values(
@@ -76,6 +63,7 @@ def loadBlogs(request):  # this will load all blogs on /blogs path
     data = []
     for k in blog_obj:
         temp = dict()
+        print(k)
         temp['blog'] = k
         tag_list = []
         for k in taginblog.objects.filter(blog_id=k['id']):
@@ -89,7 +77,9 @@ def loadBlog(request, id):  # loads specific blog with blog id
     try:
         blog = blogs.objects.get(id=id)
     except blogs.DoesNotExist:
+        print("no blog")
         return HttpResponse(0)
+    print("blog present")
     temp = dict()
     temp['id'] = blog.id
     temp['heading'] = blog.heading
@@ -106,33 +96,67 @@ def loadBlog(request, id):  # loads specific blog with blog id
 
 
 def postBlog(request):
-
     a = request.body
     temp = json.loads(a)
-
-    obj = blogs()
-    obj.heading = temp['heading']
-    obj.user_email = temp['user_email']
-    obj.user_name = temp['user_name']
-    obj.content = temp['content']
-    obj.date = datetime.date.today()
-    obj.sample_text = temp['sample_text']
-    print(temp['tag_list'])
-    obj.save()
-    for k in temp['tag_list']:
-        try:
-            tag_obj = tag.objects.get(name=k)
-        except tag.DoesNotExist:
-            tag_obj = tag()
-            tag_obj.name = k
-            tag_obj.save()
-        try:
-            taginblog_obj = taginblog()
-            taginblog_obj.blog = obj
-            taginblog_obj.tag = tag_obj
-            taginblog_obj.save()
-        except IntegrityError:
-            print("already there")
-
-    print(temp['heading'])
-    return HttpResponse('Success')
+    token=temp['token']
+    user=getUser(token)
+    print(user)
+    if user==-1 :
+        return HttpResponse("Invalid Login Credentials Please login.Copy The Text Editor Data To Avoid Loss",status=401)
+    elif user==-2:
+        return HttpResponse("You Are Not Authorized To Write Blogs",status=403 )
+    else:
+        if temp['blogId']==-1:
+            obj = blogs()
+            obj.heading = temp['heading']
+            obj.user_email = user.email
+            obj.user_name = user.first_name
+            print(user.first_name)
+            obj.content = temp['content']
+            obj.date = datetime.date.today()
+            obj.sample_text = temp['sample_text']
+            obj.save()
+            # print(obj)
+            for k in temp['tag_list']:
+                try:
+                    tag_obj = tag.objects.get(name=k)
+                except tag.DoesNotExist:
+                    tag_obj = tag()
+                    tag_obj.name = k
+                    tag_obj.save()
+                try:
+                    taginblog_obj = taginblog()
+                    taginblog_obj.blog = obj
+                    taginblog_obj.tag = tag_obj
+                    taginblog_obj.save()
+                except IntegrityError:
+                    print("already there")
+            return HttpResponse("Blog Published Successfully",status=200)
+        else:
+            try:
+                obj=blogs.objects.get(id=temp['blogId'])
+                if obj.user_email!=user.email:
+                    return HttpResponse("You Are Not Authorized To Edit This Blog",status=403)
+            except blogs.DoesNotExist:
+                return HttpResponse("The Blog You Are Trying To Update Does Not Exist",status=401)
+            obj.heading = temp['heading']
+            obj.content = temp['content']
+            obj.date = datetime.date.today()
+            obj.sample_text = temp['sample_text']
+            obj.save()
+            print(temp['tag_list'])
+            for k in temp['tag_list']:
+                try:
+                    tag_obj = tag.objects.get(name=k)
+                except tag.DoesNotExist:
+                    tag_obj = tag()
+                    tag_obj.name = k
+                    tag_obj.save()
+                try:
+                    taginblog_obj = taginblog() #delete the tag which are changed.
+                    taginblog_obj.blog = obj
+                    taginblog_obj.tag = tag_obj
+                    taginblog_obj.save()
+                except IntegrityError:
+                    print("already there")
+            return HttpResponse("Blog Updated Successfully",status=200)
