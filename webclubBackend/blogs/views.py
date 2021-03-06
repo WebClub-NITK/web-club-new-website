@@ -30,8 +30,6 @@ import ast
 def getUser(token):
     try:
         idinfo = id_token.verify_oauth2_token(token, requests.Request(), "450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com")
-        print(idinfo)
-        print((idinfo['exp']-idinfo['iat'])/60)
         if idinfo['email_verified'] and idinfo['aud']=="450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com":
             try:
                 user=User.objects.get(email=idinfo['email'])
@@ -65,7 +63,6 @@ def loadBlogs(request):  # this will load all blogs on /blogs path
     data = []
     for k in blog_obj:
         temp = dict()
-        print(k)
         temp['blog'] = k
         tag_list = []
         for k in taginblog.objects.filter(blog_id=k['id']):
@@ -79,9 +76,7 @@ def loadBlog(request, id):  # loads specific blog with blog id
     try:
         blog = blogs.objects.get(id=id)
     except blogs.DoesNotExist:
-        print("no blog")
         return HttpResponse(0)
-    print("blog present")
     temp = dict()
     temp['id'] = blog.id
     temp['heading'] = blog.heading
@@ -102,7 +97,6 @@ def postBlog(request):
     temp = json.loads(a)
     token=temp['token']
     user=getUser(token)
-    print(user)
     if user==-1 :
         return HttpResponse("Invalid Login Credentials Please login.Copy The Text Editor Data To Avoid Loss",status=401)
     elif user==-2:
@@ -113,12 +107,10 @@ def postBlog(request):
             obj.heading = temp['heading']
             obj.user_email = user.email
             obj.user_name = user.first_name
-            print(user.first_name)
             obj.content = temp['content']
             obj.date = datetime.date.today()
             obj.sample_text = temp['sample_text']
             obj.save()
-            # print(obj)
             for k in temp['tag_list']:
                 try:
                     tag_obj = tag.objects.get(name=k)
@@ -146,7 +138,6 @@ def postBlog(request):
             obj.date = datetime.date.today()
             obj.sample_text = temp['sample_text']
             obj.save()
-            print(temp['tag_list'])
             for k in temp['tag_list']:
                 try:
                     tag_obj = tag.objects.get(name=k)
@@ -165,7 +156,6 @@ def postBlog(request):
 
 def deleteblog(request):
     temp=json.loads(request.body)
-    print(temp)
     user=getUser(temp['token'])
     if user==-1 :
         return HttpResponse("Invalid Login Credentials Please login",status=401)
