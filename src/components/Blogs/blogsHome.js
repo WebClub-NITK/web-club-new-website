@@ -55,7 +55,7 @@ class Blogs extends React.Component {
         });
         this.setState({ allBlogs: temp, loaderStatus: false })
     }
-    showSearchContainer = () => {
+    showSearchContainer = () => { // animation of the blog search by tag div  onclick
         this.searchResultContainer.current.style.display = "block"; //changeing style of blogs search when focus
         this.searchForm.current.style.borderRadius = '10px 10px 0 0';
     }
@@ -155,13 +155,13 @@ class Blogs extends React.Component {
                                     onFailure={this.responseGoogle}
                                     ex
                                     render={renderProps => (
-                                        <button className="my-btn d-flex flex-row" onClick={renderProps.onClick} disabled={renderProps.disabled}><img style={{width:'30px'}} src={googlelogo}/><span style={{paddingTop:'4px'}}>Write Blog</span></button>
+                                        <button className="my-btn d-flex flex-row" onClick={renderProps.onClick} disabled={renderProps.disabled}><img style={{width:'30px'}} alt="google logo" src={googlelogo}/><span style={{paddingTop:'4px'}}>Write Blog</span></button>
                                     )}
                                     cookiePolicy={'single_host_origin'}
                                 />
                                 {/* <button onClick={this.tempfun}>tempbutton</button> */}
                             </div>
-                            <img className="bg-image" width="700" src={imageUrl} alt="keyboard" />
+                            <img className="bg-image" width="700" src={imageUrl} alt='background' />
                         </div>
                         <div className="container" >
                             <div className="row">

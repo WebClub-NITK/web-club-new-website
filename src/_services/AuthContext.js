@@ -1,5 +1,5 @@
 import React from 'react'
-const AuthContext=React.createContext({
+const AuthContext=React.createContext({ //context for keeping track on user's logedin status in various components
     isLogedIn:0,
     token:null,
     login:()=>{},

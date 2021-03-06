@@ -16,7 +16,7 @@ import {
     WhatsappShareButton
 } from "react-share";
 import {
-    FacebookIcon,
+    FacebookIcon,                      //not working  
     // LinkedinIcon,
     // TwitterIcon,
     WhatsappIcon
@@ -123,6 +123,7 @@ class BlogHome extends Component {
                         <ul className="tags list-inline">
                             {this.state.tagList_}
                         </ul>
+                        {/* this button are visible only to the writer of this blog */}
                         {this.state.editBlogStatus && [<Link to={"/editor/editblog/" + this.state.blogId} key="1" className='btn btn-outline-secondary mr-3'><i className="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</Link>,<span onClick={this.deleteBlog} className='btn btn-outline-secondary' key="2"><i className="fa fa-trash" aria-hidden="true"></i>Delete</span>] }
                     </div>
                 </div>

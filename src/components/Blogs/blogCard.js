@@ -9,8 +9,7 @@ class BlogCard extends Component {
         this.state = {
             tagList:[],
             heading:''
-        }        
-        
+        } 
     }
     componentDidMount = () => {
         this.htmlContent.current.innerHTML = this.props.sample_text;

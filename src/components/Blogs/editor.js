@@ -14,7 +14,7 @@ class Editor extends React.Component {
         this.state = {
             editorHtml: '',
             theme: 'snow',
-            blgoId: -1
+            blgoId: -1 //to check weather we are writing new blog or editing new blog.
         }
         this.handleChange = this.handleChange.bind(this)
         this.postBlog = this.postBlog.bind(this)
@@ -23,24 +23,31 @@ class Editor extends React.Component {
     handleChange(html) {
         this.setState({ editorHtml: html }); //quill function to update editor html
     }
+    alertUser = e => {
+        console.log(e);
+        e.preventDefault()
+        e.returnValue = ''
+    }
+    
     async componentDidMount() {
-        let id=this.props.match.params.id;
-        if ( id !== undefined) {
+        
+        let id = this.props.match.params.id;
+        if (id !== undefined) {  //if we are on edit blog page below code to fill the text editor
             // console.log(id+"blogid")
             this.setState({
                 blgoId: id
             })
             let res = await BlogApi.loadBlogWithId(this.props.match.params.id)
             // console.log()
-            let tags=res.tag_list;
-            let tag_list=[]
-            for(let i=0;i<tags.length;i++){
+            let tags = res.tag_list;
+            let tag_list = []
+            for (let i = 0; i < tags.length; i++) {
                 tag_list.push(`#${tags[i]}`)
             }
-            let data=`<h1>${res.heading}</h1><p>${res.sample_text}</p><p>${res.content}</p><p>${tag_list}</p>`;
+            let data = `<h1>${res.heading}</h1><p>${res.sample_text}</p><p>${res.content}</p><p>${tag_list}</p>`;
 
             this.setState({
-                editorHtml:data
+                editorHtml: data
             })
             // console.log(res)
         }
@@ -50,7 +57,7 @@ class Editor extends React.Component {
         let data_to_send = this.state.editorHtml
         // console.log(data_to_send)
         this.publishButton.current.style.display = 'none' //hiding publish button
-        let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);        
+        let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);
         // console.log(res)
         if (res === undefined) {
             this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog
@@ -58,6 +65,7 @@ class Editor extends React.Component {
     }
 
     render() {
+        
         return (
             <>
                 <Nav sticky="true" transp="false" />

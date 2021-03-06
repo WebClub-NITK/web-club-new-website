@@ -19,18 +19,18 @@ class authApi {
                     localStorage.setItem('token', data.token)
                     localStorage.setItem('user_email',res.data)
                     login_status = true;
-                    mynoty.show("Logged In Successfully For Next 1 Hour",1);
+                    mynoty.show("Logged In Successfully For Next 1 Hour",1); // token time is 1 hr
                 }
             })
             .catch((error) => {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user_email')
-                if ( error.response!==undefined && error.response.status === 401) {
+                if ( error.response!==undefined && error.response.status === 401) { //if invalid token or expired
                     mynoty.show("Invalid Login Credentials",2);
-                }else if (error.response!==undefined && error.response.status === 403) {
+                }else if (error.response!==undefined && error.response.status === 403) { // if token is valid but not a club member
                     mynoty.show("You Are Not Unauthorized To Write Blogs",2);
                 } else {
-                    mynoty.show("Oops Something Went Wrong",2);
+                    mynoty.show("Oops Something Went Wrong",2); //if backend is not running or not reachable....
                 }
             })
         return login_status;
@@ -38,7 +38,7 @@ class authApi {
     async validateToken(){ //return true false only
         let login=false;
         let token = await localStorage.getItem('token');
-        if(token===null){
+        if(token===null || token === undefined){
             return false;
         }
         await axios.post(urlApi.backendDomain()+'/googlelogin',{token:token})

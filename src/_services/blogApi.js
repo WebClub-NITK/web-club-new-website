@@ -15,13 +15,13 @@ class BlogApi {
     if (heading === undefined) {
       heading = soup.find('h2')
       if (heading === undefined) {
-        mynoty.show("System could not auto-detect heading please enclose heading in h1 or h2 tag", 2)
+        mynoty.show("System could not auto-detect heading please enclose heading in h1 or h2 tag", 2) // is the line good in terms of english...
         return;
       }
     }
     let sample_text = soup.find('p')
     if (sample_text === undefined) {
-      mynoty.show("System could not auto-detect sample text first paragraph will be taken as sample text", 2)
+      mynoty.show("System could not auto-detect sample text first paragraph will be taken as sample text", 2)  //check english of this  line
       return;
     }
     await sample_text.extract()
@@ -39,7 +39,7 @@ class BlogApi {
     })
     // console.log(tag_list)
     if (tag_list.length === 0) {
-      mynoty.show("Please include some topic tag i.e #Programming #ML #DSA", 2)
+      mynoty.show("Please include some topic tag i.e #Programming #ML #DSA", 2) //instead of creating new instance of Noty every time i have created different components in components/mynoty.js 
       return;
     }
     let token = await localStorage.getItem('token');
@@ -48,38 +48,38 @@ class BlogApi {
       heading: heading,
       sample_text: sample_text,
       tag_list: tag_list,
-      blogId: blog_id,
+      blogId: blog_id, //blog id will be -1 if we are wrtting blog and will have a valid id in case if we are editing a blog.
       token: token
     }
-    mynoty.show("Wait while you blog get posted", 1)
-    axios.post(url, data_to_send)
+    mynoty.show("Wait while your blog get posted", 1)
+    await axios.post(url, data_to_send)
       .then(response => {
         if (response.status === 200) {
           mynoty.show(response.data, 1)
-          window.location.href = urlApi.webDomain() + '/new#/blogs'
+          window.location.href = urlApi.webDomain() + '/new#/blogs' //redired after blog post.
         }
 
       })
       .catch(error => {
-        if (error.response!==undefined && error.response.status === 401) {
+        if (error.response!==undefined && error.response.status === 401) { // if backend is offline or user token send expired/invalid
           // console.log(error.response);
           mynoty.show(error.response.data, 2)
-        } else if (error.response!==undefined && error.response.status === 403) {
+        } else if (error.response!==undefined && error.response.status === 403) { //token send  is balid but user in not a club member
           // console.log(error.response)
           mynoty.show(error.response.data, 2)
         } else {
-          mynoty.show("Oops Something Went Wrong", 2)
+          mynoty.show("Oops Something Went Wrong", 2) //if  some other error occure at backend
         }
       })
       return undefined;
   }
-  async loadBlogWithId(blogid) {
+  async loadBlogWithId(blogid) { //loading specific blog
     let res = await fetch(urlApi.backendDomain() + '/getblogs/' + blogid)
     res = await res.json()
     return res
   }
   async loadBlogs() {
-    let res = await fetch(urlApi.backendDomain() + '/getblogs');
+    let res = await fetch(urlApi.backendDomain() + '/getblogs'); //loading all blog with headding and sample text(main content of blog is not loaded here)
     res = await res.json()
     return res;
   }
@@ -97,10 +97,10 @@ class BlogApi {
     })
     .catch((error)=>{
       console.log(error)
-      if(error.response!==undefined && (error.response.status===403 || error.response.status==401)){
+      if(error.response!==undefined && (error.response.status===403 || error.response.status===401)){ //if backend is offline or invalid/expired token or if someone is deleting the blog which is not written by him.
         mynoty.show(error.response.data, 2)
       }else{
-        mynoty.show("Oops Something Went Wrong", 2)
+        mynoty.show("Oops Something Went Wrong", 2) //any other internal error at server
       }
     })
   }
