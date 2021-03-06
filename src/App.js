@@ -61,9 +61,10 @@ class App extends React.Component {
                     <Route exact path="/blogs" component={BlogsHome} />
                     <Route exact path="/blogs/:heading" component={Blog} />
                     {privateUrl}
+                    <Route component={pagenotfound} />
                   </Switch>
                 </AuthContextProvider>
-                <Route component={pagenotfound} />
+                
               </Switch>
             </Router>
           </main>

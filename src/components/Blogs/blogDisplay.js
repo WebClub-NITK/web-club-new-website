@@ -8,6 +8,7 @@ import BlogApi from "../../_services/blogApi";
 import queryString from 'query-string';
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from 'react-router-dom'
+import mynoty from './../mynoty'
 import {
     FacebookShareButton,
     // LinkedinShareButton,
@@ -44,7 +45,7 @@ class BlogHome extends Component {
             this.setState({redirectstatus:true})
         }
         let res = await BlogApi.loadBlogWithId(blogid)
-        console.log(res)
+        // console.log(res)
         if (res === 0) {
             this.setState({redirectstatus:true})
         } else {
@@ -72,13 +73,24 @@ class BlogHome extends Component {
             this.htmlSampleText.current.innerHTML = res.sample_text
             this.editblogdiv.current.style.display = "block"
             let user_email= await localStorage.getItem('user_email')
-            console.log(user_email)
-            console.log(res.user_email)
+            // console.log(user_email)
+            // console.log(res.user_email)
             if(user_email=== res.user_email){
                 this.setState({editBlogStatus:true})
             }
         }
 
+    }
+    deleteBlog=()=>{
+        let blogid=this.state.blogId;
+        console.log(blogid);
+        let email=prompt("Pleasee enter your email");
+        console.log(email);
+        if(email===""){
+            mynoty.show("Please enter a valid email",2)
+        }else{
+            BlogApi.deleteBlog(blogid,email);            
+        }
     }
     render() {
         let loaderContent = null;
@@ -111,7 +123,7 @@ class BlogHome extends Component {
                         <ul className="tags list-inline">
                             {this.state.tagList_}
                         </ul>
-                        {this.state.editBlogStatus && <Link to={"/editor/editblog/" + this.state.blogId} className='btn btn-outline-secondary'><i className="fa fa-pencil-square-o" aria-hidden="true"></i>Edit Blog</Link>}
+                        {this.state.editBlogStatus && [<Link to={"/editor/editblog/" + this.state.blogId} key="1" className='btn btn-outline-secondary mr-3'><i className="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</Link>,<span onClick={this.deleteBlog} className='btn btn-outline-secondary' key="2"><i className="fa fa-trash" aria-hidden="true"></i>Delete</span>] }
                     </div>
                 </div>
             </>

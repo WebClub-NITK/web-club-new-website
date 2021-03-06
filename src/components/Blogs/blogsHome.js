@@ -12,16 +12,16 @@ import BlogApi from "../../_services/blogApi";
 import GoogleLogin from 'react-google-login'
 import ReactPaginate from 'react-paginate';
 import authApi from '../../_services/authApi'
-import urlApi from '../../_services/urlApi'
+// import urlApi from '../../_services/urlApi'
 import { Redirect } from 'react-router'
 import AuthContext from './../../_services/AuthContext'
-import Blog from "./blogDisplay";
-import axios from 'axios';
-import {
-    membersWorkSheetId,
-    // profileImagesRepositoryURL,
-} from "./../../environment";
-import SpreadSheetApi from './../../_services/spreadSheetApi'
+// import Blog from "./blogDisplay";
+// import axios from 'axios';
+// import {
+//     membersWorkSheetId,
+//     // profileImagesRepositoryURL,
+// } from "./../../environment";
+// import SpreadSheetApi from './../../_services/spreadSheetApi'
 
 
 class Blogs extends React.Component {
@@ -50,7 +50,7 @@ class Blogs extends React.Component {
         var temp = blogsList.map(element => {
             let tags = element.tags
             element = element.blog
-            console.log(element);
+            // console.log(element);
             return <BlogCard key={element.id} color={color_arr[(counter++) % 10]} blogsid={element.id} tagList={tags} heading={element.heading} date={element.date} writer={element.user_name} sample_text={element.sample_text} />
         });
         this.setState({ allBlogs: temp, loaderStatus: false })
@@ -88,7 +88,7 @@ class Blogs extends React.Component {
         }
 
         this.setState({ allBlogs: temp }, () => {
-            console.log(this.state.allBlogs)
+            // console.log(this.state.allBlogs)
         })
 
 
@@ -97,9 +97,9 @@ class Blogs extends React.Component {
         var data = {
             token: response.tokenId
         }
-        console.log(response.tokenId);
+        // console.log(response.tokenId);
         let res = await authApi.login(data);
-        console.log(res)
+        // console.log(res)
         if (res === true) {
             this.context.login();
             this.setState({
@@ -110,7 +110,7 @@ class Blogs extends React.Component {
         }
     }
     handlePageClick = (k) => {
-        console.log(k.selected)
+        // console.log(k.selected)
         this.setState({
             currentPage: k.selected + 1
         })
@@ -161,7 +161,7 @@ class Blogs extends React.Component {
                                 />
                                 {/* <button onClick={this.tempfun}>tempbutton</button> */}
                             </div>
-                            <img className="bg-image" width="700" src={imageUrl} alt="" />
+                            <img className="bg-image" width="700" src={imageUrl} alt="keyboard" />
                         </div>
                         <div className="container" >
                             <div className="row">

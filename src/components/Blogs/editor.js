@@ -26,12 +26,12 @@ class Editor extends React.Component {
     async componentDidMount() {
         let id=this.props.match.params.id;
         if ( id !== undefined) {
-            console.log(id+"blogid")
+            // console.log(id+"blogid")
             this.setState({
                 blgoId: id
             })
             let res = await BlogApi.loadBlogWithId(this.props.match.params.id)
-            console.log()
+            // console.log()
             let tags=res.tag_list;
             let tag_list=[]
             for(let i=0;i<tags.length;i++){
@@ -42,16 +42,16 @@ class Editor extends React.Component {
             this.setState({
                 editorHtml:data
             })
-            console.log(res)
+            // console.log(res)
         }
 
     }
     async postBlog() {
         let data_to_send = this.state.editorHtml
-        console.log(data_to_send)
+        // console.log(data_to_send)
         this.publishButton.current.style.display = 'none' //hiding publish button
         let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);        
-        console.log(res)
+        // console.log(res)
         if (res === undefined) {
             this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog
         }

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import urlApi from './urlApi'
-import spreadSheetApi from './spreadSheetApi'
-import { membersWorkSheetId } from '../environment'
+// import spreadSheetApi from './spreadSheetApi'
+// import { membersWorkSheetId } from '../environment'
 import '../styles/mynoty.css'
-import Noty from 'noty'
+// import Noty from 'noty'
 import mynoty from './../components/mynoty'
 
 class authApi {
@@ -15,11 +15,11 @@ class authApi {
             })
             .then(async(res) => {
                 if (res.status === 200) {
-                    console.log(res.data);
+                    // console.log(res.data);
                     localStorage.setItem('token', data.token)
                     localStorage.setItem('user_email',res.data)
                     login_status = true;
-                    mynoty.show("Logged In Successfully",1);
+                    mynoty.show("Logged In Successfully For Next 1 Hour",1);
                 }
             })
             .catch((error) => {
@@ -43,7 +43,7 @@ class authApi {
         }
         await axios.post(urlApi.backendDomain()+'/googlelogin',{token:token})
         .then((res)=>{
-            if(res.status==200){
+            if(res.status===200){
                 login=true
                 localStorage.setItem('user_email',res.data)
             }

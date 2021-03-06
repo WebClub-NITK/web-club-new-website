@@ -11,7 +11,7 @@ export default function pagenotfound() {
             </Helmet>
             <Nav sticky="false" transp="false" />
             <div style={{paddingTop:"4rem"}} id="main_container">
-                <img src={imageUrl}/>
+                <img src={imageUrl} alt="404image"/>
                 <span className="text">The page you were looking for does not exist</span>
             </div>
         </>
