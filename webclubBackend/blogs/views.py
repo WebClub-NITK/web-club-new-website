@@ -30,6 +30,8 @@ import ast
 def getUser(token):
     try:
         idinfo = id_token.verify_oauth2_token(token, requests.Request(), "450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com")
+        print(idinfo)
+        print((idinfo['exp']-idinfo['iat'])/60)
         if idinfo['email_verified'] and idinfo['aud']=="450857265760-h4n07vma47ofqrna2ktclm5rvgg3f24l.apps.googleusercontent.com":
             try:
                 user=User.objects.get(email=idinfo['email'])
@@ -160,3 +162,28 @@ def postBlog(request):
                 except IntegrityError:
                     print("already there")
             return HttpResponse("Blog Updated Successfully",status=200)
+
+def deleteblog(request):
+    temp=json.loads(request.body)
+    print(temp)
+    user=getUser(temp['token'])
+    if user==-1 :
+        return HttpResponse("Invalid Login Credentials Please login",status=401)
+    elif user==-2:
+        return HttpResponse("You Are Not Authorized To Write Blogs",status=403 )
+    else:
+        try:
+            blog=blogs.objects.get(id=temp['blogid'])
+        except blogs.DoesNotExist:
+            return HttpResponse('Blog Does not exist',status=404)
+        if user.email==temp['user_email']:
+            if blog.user_email==user.email:
+                blogtag=taginblog.objects.filter(blog=blog)
+                for k in blogtag:
+                    k.delete()
+                blog.delete()
+                return HttpResponse("Blog deleted successfully",status=200)
+            else:
+                return HttpResponse("You are not authorized to delete this blogs",status=403 )
+        else:
+            return HttpResponse("Enter a valid email",status=401 )
