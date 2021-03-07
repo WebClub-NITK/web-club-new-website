@@ -56,6 +56,9 @@ const Menu = ({ open, setOpen }) => {
             {/* <Link to="/timeline" onClick={() => setOpen(!open)}>
                 Timeline
             </Link> */}
+            <Link tto="/blog" onClick={() => setOpen(!open)}>
+                Blogs
+            </Link>
         </StyledMenu>
     );
 };
