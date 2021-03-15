@@ -7,7 +7,7 @@ export default function pagenotfound() {
     return (
         <>
             <Helmet>
-                <title>Blog</title>
+                <title>Page Not Found</title>
             </Helmet>
             <Nav sticky="false" transp="false" />
             <div style={{paddingTop:"4rem"}} id="main_container">
