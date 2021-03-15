@@ -1,22 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    white-space: normal !important;
+}
 .blog-title-img{
     width: 100%;
 }
 .posted-on{
     font-size: 12px;
+    padding-bottom: .5rem !important;
     letter-spacing: 1px;
-    
     color: #2a6fab;
 }
 .blogs-heading{
     color: #16181a;
-    font-size: 1.3rem !important;
+    font-size: 1.5rem !important;
     font-weight: 700;
 }
 .blog-heading{
     color: #16181a;
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-size: 2rem;
+    padding-bottom: .5rem !important;
+    font-family: 'Noto Sans JP', sans-serif !important;
+    font-weight: 500;
     text-transform: capitalize;
 }
 .my-btn{
@@ -60,15 +69,20 @@
   }
 .blog-content{
     color: #363b40;
-    font-size: 0.9rem;
-    font-weight: 400;
-    line-height: 1.7;
-    font-family: 'Nunito Sans', sans-serif;
+    line-height: 1.5;
+    
 }
 .blog-content img{
     display: block;
     margin: 0 auto;
     max-width:100% ;
+    border-radius: 12px;
+}
+.blog-content blockquote {
+    border-left: 4px solid #ccc;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-left: 16px;
 }
 .blogs-content h1,
 .blogs-content h2,
@@ -80,8 +94,8 @@
     margin: 4px 0;
     line-height: inherit;
     font-family: Roboto,sans-serif;
-    font-size: 16px;
-
+    font-size: 18px;
+    font-family: 'Nunito Sans', sans-serif;
 }
 .blogcard img{
     width: 100%;
@@ -102,10 +116,16 @@
     padding-left: 15rem;
 }
 .ql-indent-6{
-    padding-left: 18rem;
+    text-align: center;
 }
 .ql-indent-7{
-    padding-left: 21rem;
+    text-align: center;
+}
+.ql-indent-8{
+    text-align: center;
+}
+.ql-indent-9{
+    text-align: center;
 }
 .ql-size-huge{
     font-size: 2.5rem;
@@ -291,12 +311,22 @@ input:focus {
     border-radius: 0 0 10px 10px;
     
 }
+.share-icon{
+    top: 100%;
+    left: 5px;
+    transform: translateY(-100%);
+    display: flex;
+}
 @media (min-width: 640px) {
     .blog-card{
         flex-direction: row;
         max-width: 800px;
     }
-    
+    .share-icon{
+        top: 50%;
+        transform: translateY(-100%);
+        display: block;
+    }
     .blog-card .meta {
       flex-basis: 30%;
       height: auto;
