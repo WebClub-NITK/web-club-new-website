@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import "../../styles/blog.css";
 import Nav from "../Nav/Nav";
-// import axios from 'axios';
 import Helmet from "react-helmet";
 import BlogApi from "../../_services/blogApi";
-// import urlApi from "../../_services/urlApi";
 import queryString from 'query-string';
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from 'react-router-dom'
-// import urlApi from './../../_services/urlApi'
 import mynoty from '../mynoty'
 import {
     FacebookShareButton,
@@ -43,15 +40,15 @@ class BlogDisplay extends Component {
         let blogid = queryString.parse(this.props.location.search).id
         if(blogid===undefined){
             this.setState({redirectstatus:true})
+            return ;
         }
         let res = await BlogApi.loadBlogWithId(blogid)
-        // console.log(res)
         if (res === 0) {
             this.setState({redirectstatus:true})
         } else {
             this.setState({ blogId: blogid })
-            let temp = <div className="container-fluid bg-light pb-5 " style={{ paddingTop: '60px', minHeight: '500px' }}>
-                <div style={{ maxWidth: '1000px' }} className="mx-auto">
+            let temp = <div className="container-fluid bg-light pb-5 ql-snow " style={{ paddingTop: '60px', minHeight: '500px' }}>
+                <div style={{ maxWidth: '1000px' }} className="mx-auto ql-editor">
                     <p className="blog-heading pt-5" ref={this.htmlHeading}></p>
                     <p className="posted-on">Posted on: {res.date} by-<span>{res.writer}</span></p>
                     <p ref={this.htmlSampleText}></p>
@@ -73,8 +70,6 @@ class BlogDisplay extends Component {
             this.htmlSampleText.current.innerHTML = res.sample_text
             this.editblogdiv.current.style.display = "block"
             let user_email= await localStorage.getItem('user_email')
-            // console.log(user_email)
-            // console.log(res.user_email)
             if(user_email=== res.user_email){
                 this.setState({editBlogStatus:true})
             }
@@ -105,8 +100,9 @@ class BlogDisplay extends Component {
                     <title>Blog</title>
                 </Helmet>
                 <Nav sticky="false" transp="false" />
-                <div className="position-fixed pl-2" style={{ top: '50%' }}>
+                <div className="position-fixed  share-icon" >
                     {/* facebook sharring is giving error  */}
+                    <img src="https://img.icons8.com/metro/26/000000/share.png" className="d-block pb-2"/>
                     <FacebookShareButton url={window.location.href}>
                         <FacebookIcon size={32} round={true}></FacebookIcon>
                     </FacebookShareButton>

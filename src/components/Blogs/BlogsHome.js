@@ -84,7 +84,7 @@ class BlogHome extends React.Component {
 
     }
     responseGoogle = async (response) => {
-        console.log(response);
+        
         var data = {
             token: response.tokenId
         }

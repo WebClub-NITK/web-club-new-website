@@ -33,30 +33,25 @@ class Editor extends React.Component {
         e.preventDefault()
         e.returnValue = ''
     }
-    
     async componentDidMount() {
         
         let id = await queryString.parse(this.props.location.search).id;
         console.log(id)
         if (id !== undefined) {  //if we are on edit blog page below code to fill the text editor
-            // console.log(id+"blogid")
             this.setState({
                 blgoId: id
             })
             mynoty.show("Loading your blog in the editor", 1)
             let res = await BlogApi.loadBlogWithId(id)
-            // console.log()
             let tags = res.tag_list;
             let tag_list = []
             for (let i = 0; i < tags.length; i++) {
                 tag_list.push(`#${tags[i]}`)
             }
             let data = `<h1>${res.heading}</h1><p>${res.sample_text}</p><p>${res.content}</p><p>${tag_list}</p>`;
-
             this.setState({
                 editorHtml: data
             })
-            // console.log(res)
         }
 
     }

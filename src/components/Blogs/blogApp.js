@@ -10,7 +10,7 @@ class blogApp extends Component {
         super(props)
         this.path = matchPath()
         this.state = {
-            logedIn: true,
+            logedIn: false,
         }
     }
     componentDidMount = async () => {
@@ -20,6 +20,7 @@ class blogApp extends Component {
                 logedIn: true
             })
         }
+        console.log(loged_in)
     }
     login = () => {
         this.setState({
@@ -39,12 +40,12 @@ class blogApp extends Component {
                 <Route exact path={`/blog`}>
                     <BlogHome isLogedIn={this.state.logedIn} login={this.login} logout={this.logout} {...this.props} />
                 </Route>
-                <Route exact path="/blog/editor" >
+                { this.state.logedIn && <Route exact path="/blog/editor" >
                     <Editor isLogedIn={this.state.logedIn} login={this.login} logout={this.logout} {...this.props} />
-                </Route>
-                <Route exact path="/blog/editor/editblog" >
+                </Route>}
+                { this.state.logedIn && <Route exact path="/blog/editor/editblog" >
                     <Editor isLogedIn={this.state.logedIn} login={this.login} logout={this.logout} {...this.props} />
-                </Route>
+                </Route>}
                 <Route exact path={`/blog/:slug`} component={BlogDisplay} />
             </Switch>
         )
