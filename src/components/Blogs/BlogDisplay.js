@@ -51,8 +51,9 @@ class BlogDisplay extends Component {
                 <div style={{ maxWidth: '1000px' }} className="mx-auto ql-editor">
                     <p className="blog-heading pt-5" ref={this.htmlHeading}></p>
                     <p className="posted-on">Posted on: {res.date} by-<span>{res.writer}</span></p>
+                    <p className="pb-2"><b>Introduction</b></p>
                     <p ref={this.htmlSampleText}></p>
-                    <p className="blog-content text-justify" ref={this.htmlContent}></p>
+                    <p className="blog-content  text-justify" ref={this.htmlContent}></p>
                 </div>
             </div>
             let tag_list = []
@@ -79,7 +80,6 @@ class BlogDisplay extends Component {
     deleteBlog=()=>{
         let blogid=this.state.blogId;
         let email=prompt("Pleasee enter your email");
-        console.log(email);
         if(email===""){
             mynoty.show("Please enter a valid email",2)
         }else{

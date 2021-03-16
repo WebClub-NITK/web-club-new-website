@@ -4,6 +4,7 @@ import BlogHome from './BlogsHome'
 import authApi from './../../_services/authApi'
 import BlogDisplay from './BlogDisplay'
 import Editor from './editor'
+import pagenotfound from './../pagenotfound'
 // import pagenotfound from './../pagenotfound'
 class blogApp extends Component {
     constructor(props) {
@@ -20,7 +21,6 @@ class blogApp extends Component {
                 logedIn: true
             })
         }
-        console.log(loged_in)
     }
     login = () => {
         this.setState({
@@ -47,6 +47,7 @@ class blogApp extends Component {
                     <Editor isLogedIn={this.state.logedIn} login={this.login} logout={this.logout} {...this.props} />
                 </Route>}
                 <Route exact path={`/blog/:slug`} component={BlogDisplay} />
+                <Route component={pagenotfound}/>
             </Switch>
         )
     }

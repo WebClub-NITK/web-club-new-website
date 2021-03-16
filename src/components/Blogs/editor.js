@@ -7,7 +7,7 @@ import Nav from "../Nav/Nav";
 import BlogApi from "../../_services/blogApi";
 import urlApi from "../../_services/urlApi";
 import queryString from 'query-string';
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import mynoty from './../../components/mynoty'
 
 class Editor extends React.Component {
@@ -17,9 +17,10 @@ class Editor extends React.Component {
         this.state = {
             editorHtml: '',
             theme: 'snow',
-            blgoId: -1 ,//to check weather we are writing new blog or editing new blog.
-            redirectStatus:0,
-            header:'new-blog'
+            blgoId: -1,//to check weather we are writing new blog or editing new blog.
+            redirectStatus: 0,
+            pageNotFound: false,
+            header: 'new-blog'
         }
         this.handleChange = this.handleChange.bind(this)
         this.postBlog = this.postBlog.bind(this)
@@ -34,24 +35,28 @@ class Editor extends React.Component {
         e.returnValue = ''
     }
     async componentDidMount() {
-        
+
         let id = await queryString.parse(this.props.location.search).id;
-        console.log(id)
         if (id !== undefined) {  //if we are on edit blog page below code to fill the text editor
             this.setState({
                 blgoId: id
             })
             mynoty.show("Loading your blog in the editor", 1)
             let res = await BlogApi.loadBlogWithId(id)
-            let tags = res.tag_list;
-            let tag_list = []
-            for (let i = 0; i < tags.length; i++) {
-                tag_list.push(`#${tags[i]}`)
+            if (res === 0) {
+                this.setState({ pageNotFound: true })
+            } else {
+                let tags = res.tag_list;
+                let tag_list = ''
+                for (let i = 0; i < tags.length; i++) {
+                    tag_list += (`<span>#${tags[i]}</span>`)
+                }
+                let data = `<h1>${res.heading}</h1><p>${res.sample_text}</p><p>${res.content}</p><p>${tag_list}</p>`;
+                this.setState({
+                    editorHtml: data
+                })
             }
-            let data = `<h1>${res.heading}</h1><p>${res.sample_text}</p><p>${res.content}</p><p>${tag_list}</p>`;
-            this.setState({
-                editorHtml: data
-            })
+
         }
 
     }
@@ -63,22 +68,22 @@ class Editor extends React.Component {
         // console.log(res)
         if (res === undefined) {
             this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog
-        }else{
-            console.log(res);
+        } else {
             this.setState({
-                blgoId:res.id,
-                heading:res.heading,
-                redirectStatus:true
+                blgoId: res.id,
+                heading: res.heading,
+                redirectStatus: true
             })
         }
     }
 
     render() {
-        
+
         return (
             <>
                 <Nav sticky="true" transp="false" />
-                {this.state.redirectStatus===true && <Redirect to={`/blog/${this.state.heading}?id=${this.state.blgoId}`}/>}
+                {this.state.redirectStatus === true && <Redirect to={`/blog/${this.state.heading}?id=${this.state.blgoId}`} />}
+                {this.state.pageNotFound === true && <Redirect to={`/blog/pagenotfound`} />}
                 <ReactQuill className="text_editor"
                     theme={this.state.theme}
                     onChange={this.handleChange}
