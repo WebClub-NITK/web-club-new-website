@@ -15,13 +15,13 @@ class BlogApi {
     if (heading === undefined) {
       heading = soup.find('h2')
       if (heading === undefined) {
-        mynoty.show("System could not auto-detect heading please enclose heading in h1 or h2 tag", 2) // is the line good in terms of english...
+        mynoty.show("Please enclose heading in h1 or h2 tag", 2) // is the line good in terms of english...
         return;
       }
     }
     let sample_text = soup.find('p')
     if (sample_text === undefined) {
-      mynoty.show("System could not auto-detect sample text first paragraph will be taken as sample text", 2)  //check english of this  line
+      mynoty.show("Could not find sample text first paragraph will be taken as sample text", 2)  //check english of this  line
       return;
     }
     await sample_text.extract()

@@ -1,10 +1,10 @@
 class urlApi {
     webDomain() {
-        return 'http://localhost:3000'
+        return 'https://webclub.nitk.ac.in'
     }
     backendDomain() {
         // return 'http://bharatrajput2409.pythonanywhere.com'
-        return 'http://127.0.0.1:8000'
+        return 'http://wocnitk.pythonanywhere.com'
     }
 }
 var instance = new urlApi();

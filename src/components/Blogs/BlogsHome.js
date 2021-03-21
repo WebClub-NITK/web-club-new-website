@@ -12,9 +12,13 @@ import BlogApi from "../../_services/blogApi";
 import GoogleLogin from 'react-google-login'
 import ReactPaginate from 'react-paginate';
 import authApi from '../../_services/authApi'
-// import urlApi from '../../_services/urlApi'
 import { Redirect } from 'react-router'
-
+// import {
+//     membersWorkSheetId,
+//     // profileImagesRepositoryURL,
+// } from "./../../environment";
+// import SpreadSheetApi from "../../_services/spreadSheetApi";
+// import Axios from "axios";
 class BlogHome extends React.Component {
     constructor(props) {
         super(props);
@@ -106,8 +110,20 @@ class BlogHome extends React.Component {
             currentPage: k.selected + 1
         })
     }
-    // tempfun = async () => {
-        
+    // addAllUser=async()=>{
+    //     var res = await SpreadSheetApi.getWorkSheetData(membersWorkSheetId);
+    //     console.log(res);
+    //     let userdata=[];
+    //     res.forEach(val=>{
+    //         console.log(val);
+    //         userdata.push({
+    //             name:val.name,
+    //             username:val.id,
+    //             email:val.email
+    //         })
+    //     })
+    //     console.log(userdata)
+    //     Axios.post(urlApi.backendDomain()+'/create_club_member_data',userdata);
     // }
     render() {
         const { blogsPerPage, loaderStatus, allBlogs, currentPage, redirectToHome } = this.state
@@ -149,7 +165,7 @@ class BlogHome extends React.Component {
                                     )}
                                     cookiePolicy={'single_host_origin'}
                                 />
-                                {/* <button onClick={this.tempfun}>tempbutton</button> */}
+                                {/* <button onClick={this.addAllUser}>tempbutton</button> */}
                             </div>
                             <img className="bg-image" width="700" src={imageUrl} alt='background' />
                         </div>
