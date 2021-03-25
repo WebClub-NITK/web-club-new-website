@@ -15,7 +15,7 @@ class App extends React.Component {
         <div id="wrapper" className="d-flex flex-column">
           <main className="flex-fill">
             <Router>
-              <Suspense fallback={<div className="d-flex justify-content-center"><Loader type="TailSpin" color="#00BFFF" height={100} width={100} /></div>}>
+              <Suspense fallback={<div className="d-flex justify-content-center pt-5"><Loader type="TailSpin" color="#00BFFF" height={100} width={100} /></div>}>
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/members" component={Members} />
