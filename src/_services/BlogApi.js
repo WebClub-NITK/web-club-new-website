@@ -1,9 +1,5 @@
 import axios from 'axios';
 import jssoup from 'jssoup';
-// import Noty from 'noty';
-import "../../node_modules/noty/lib/themes/bootstrap-v4.css";
-import "../../node_modules/noty/lib/noty.css";
-import urlApi from './urlApi'
 import mynoty from '../components/mynoty'
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";// these two lines are of no use but me be used when we try to send csrf_token with post requset
 axios.defaults.xsrfCookieName = "XCSRF-TOKEN";//csrf_token
@@ -79,17 +75,17 @@ class BlogApi {
       return res_;
   }
   async loadBlogWithId(blogid) { //loading specific blog
-    let res = await fetch(urlApi.backendDomain() + '/getblogs/' + blogid)
+    let res = await fetch(process.env.REACT_APP_BACKEND_URL + '/getblogs/' + blogid)
     res = await res.json()
     return res
   }
   async loadBlogs() {
-    let res = await fetch(urlApi.backendDomain() + '/getblogs'); //loading all blog with headding and sample text(main content of blog is not loaded here)
+    let res = await fetch(process.env.REACT_APP_BACKEND_URL+ '/getblogs'); //loading all blog with headding and sample text(main content of blog is not loaded here)
     res = await res.json()
     return res;
   }
   async deleteBlog(id,user_email){
-    axios.post(urlApi.backendDomain()+'/deleteblog',{
+    axios.post(process.env.REACT_APP_BACKEND_URL+'/deleteblog',{
       blogid:id,
       user_email:user_email,
       token:await localStorage.getItem('token')
@@ -97,7 +93,7 @@ class BlogApi {
     .then((res)=>{
       if(res.status===200){
         mynoty.show(res.data,1);
-        window.location.href = urlApi.webDomain() + '/#/blog'
+        return true;
       }
     })
     .catch((error)=>{
@@ -107,6 +103,7 @@ class BlogApi {
       }else{
         mynoty.show("Oops Something Went Wrong", 2) //any other internal error at server
       }
+      return false;
     })
   }
 }
