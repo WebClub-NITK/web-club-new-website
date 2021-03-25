@@ -147,7 +147,7 @@ class BlogHome extends React.Component {
                     <div>
                         <Nav sticky="false" transp="false" />
                         <div className="main-image center-flex" style={{ background: 'white' }}>
-                            <div className="title-container" >
+                            <div className="title-container px-4" style={{width:'100%'}} >
                                 <h1 className="main-title-blogs">
                                     Write an
                                 <br />

@@ -101,7 +101,7 @@ class BlogDisplay extends Component {
         return (
             <>
                 {this.state.pagenotfound && <Redirect to={"/pagenotfound"}/>}
-                {this.state.pagenotfound && <Redirect to={"/blog"}/>}
+                {this.state.redirectstatus && <Redirect to={"/blog"}/>}
                 <Helmet>
                     <title>Blog</title>
                 </Helmet>
