@@ -5,13 +5,13 @@ import imageUrl from "../../assets/images/blog_img.png";
 import googlelogo from "../../assets/images/google-logo.svg";
 import Nav from "../Nav/Nav";
 import Loader from "react-loader-spinner";
-import BlogCard from './blogCard'
+import BlogCard from './BlogCard'
 import Helmet from "react-helmet";
-import BlogApi from "../../_services/blogApi";
+import BlogApi from "../../_services/BlogApi";
 // import urlApi from "../../_services/urlApi";
 import GoogleLogin from 'react-google-login'
 import ReactPaginate from 'react-paginate';
-import authApi from '../../_services/authApi'
+import AuthApi from '../../_services/AuthApi'
 import { Redirect } from 'react-router'
 // import {
 //     membersWorkSheetId,
@@ -93,7 +93,7 @@ class BlogHome extends React.Component {
             token: response.tokenId
         }
         // console.log(response.tokenId);
-        let res = await authApi.login(data);
+        let res = await AuthApi.login(data);
         // console.log(res)
         if (res === true) {
             this.props.login();

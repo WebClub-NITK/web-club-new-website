@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import "../../styles/blog.css";
+import 'react-quill/dist/quill.snow.css';
 import Nav from "../Nav/Nav";
 import Helmet from "react-helmet";
-import BlogApi from "../../_services/blogApi";
+import BlogApi from "../../_services/BlogApi";
 import queryString from 'query-string';
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from 'react-router-dom'
@@ -33,18 +34,19 @@ class BlogDisplay extends Component {
             blogId: null,
             tagList_: [],
             editBlogStatus: false,
+            pagenotfound:false,
             redirectstatus:false
         }
     }
     async componentDidMount() {
         let blogid = queryString.parse(this.props.location.search).id
         if(blogid===undefined){
-            this.setState({redirectstatus:true})
+            this.setState({pagenotfound:true})
             return ;
         }
         let res = await BlogApi.loadBlogWithId(blogid)
         if (res === 0) {
-            this.setState({redirectstatus:true})
+            this.setState({pagenotfound:true})
         } else {
             this.setState({ blogId: blogid })
             let temp = <div className="container-fluid bg-light pb-5 ql-snow " style={{ paddingTop: '60px', minHeight: '500px' }}>
@@ -77,13 +79,16 @@ class BlogDisplay extends Component {
         }
 
     }
-    deleteBlog=()=>{
+    deleteBlog= async()=>{
         let blogid=this.state.blogId;
         let email=prompt("Pleasee enter your email");
         if(email===""){
             mynoty.show("Please enter a valid email",2)
         }else{
-            BlogApi.deleteBlog(blogid,email);            
+            let res= await BlogApi.deleteBlog(blogid,email);
+            if(res===true){
+                this.setState({redirectstatus:true})
+            }
         }
     }
     render() {
@@ -95,7 +100,8 @@ class BlogDisplay extends Component {
         }
         return (
             <>
-                {this.state.redirectstatus && <Redirect to={"/pagenotfound"}/>}
+                {this.state.pagenotfound && <Redirect to={"/pagenotfound"}/>}
+                {this.state.pagenotfound && <Redirect to={"/blog"}/>}
                 <Helmet>
                     <title>Blog</title>
                 </Helmet>

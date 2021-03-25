@@ -4,11 +4,11 @@ import '../../styles/editor.css'
 import "../../styles/blog.css";
 import Nav from "../Nav/Nav";
 // import { data } from 'jquery';
-import BlogApi from "../../_services/blogApi";
-import urlApi from "../../_services/urlApi";
+import BlogApi from "../../_services/BlogApi";
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom'
 import mynoty from './../../components/mynoty'
+import 'react-quill/dist/quill.snow.css';
 
 class Editor extends React.Component {
     constructor(props) {
@@ -64,7 +64,7 @@ class Editor extends React.Component {
         let data_to_send = this.state.editorHtml
         // console.log(data_to_send)
         this.publishButton.current.style.display = 'none' //hiding publish button
-        let res = await BlogApi.postBlog(urlApi.backendDomain() + '/addblog', data_to_send, this.state.blgoId);
+        let res = await BlogApi.postBlog(process.env.REACT_APP_BACKEND_URL+ '/addblog', data_to_send, this.state.blgoId);
         // console.log(res)
         if (res === undefined) {
             this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog
