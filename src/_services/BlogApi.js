@@ -85,7 +85,8 @@ class BlogApi {
     return res;
   }
   async deleteBlog(id,user_email){
-    axios.post(process.env.REACT_APP_BACKEND_URL+'/deleteblog',{
+    let res_status=false;
+    await axios.post(process.env.REACT_APP_BACKEND_URL+'/deleteblog',{
       blogid:id,
       user_email:user_email,
       token:await localStorage.getItem('token')
@@ -93,7 +94,7 @@ class BlogApi {
     .then((res)=>{
       if(res.status===200){
         mynoty.show(res.data,1);
-        return true;
+        res_status=true;
       }
     })
     .catch((error)=>{
@@ -103,8 +104,9 @@ class BlogApi {
       }else{
         mynoty.show("Oops Something Went Wrong", 2) //any other internal error at server
       }
-      return false;
+      res_status=true;
     })
+    return res_status;
   }
 }
 
