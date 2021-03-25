@@ -64,7 +64,7 @@
     top: 60px;
     display: flex;
     justify-content: center;
-    z-index: 100;
+    z-index: 1;
     background: white;
 }
 .ql-editor{
@@ -77,5 +77,8 @@
 }
 .ql-container{
     background: white;
+    background: red;
+    max-width: 800px;
+    margin: 0 auto;
     border: 0 !important;
 }
