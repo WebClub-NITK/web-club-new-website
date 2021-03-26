@@ -2,6 +2,7 @@ import React from 'react'
 import ReactQuill from 'react-quill';
 import '../../styles/editor.css'
 import "../../styles/blog.css";
+import '../../styles/pagenotfound.css'
 import Nav from "../Nav/Nav";
 // import { data } from 'jquery';
 import BlogApi from "../../_services/BlogApi";
@@ -9,7 +10,7 @@ import queryString from 'query-string';
 import { Redirect } from 'react-router-dom'
 import mynoty from './../../components/mynoty'
 import 'react-quill/dist/quill.snow.css';
-
+import imageUrl from "../../../src/assets/images/devices.svg";
 class Editor extends React.Component {
     constructor(props) {
         super(props)
@@ -64,7 +65,7 @@ class Editor extends React.Component {
         let data_to_send = this.state.editorHtml
         // console.log(data_to_send)
         this.publishButton.current.style.display = 'none' //hiding publish button
-        let res = await BlogApi.postBlog(process.env.REACT_APP_BACKEND_URL+ '/addblog', data_to_send, this.state.blgoId);
+        let res = await BlogApi.postBlog(process.env.REACT_APP_BACKEND_URL + '/addblog', data_to_send, this.state.blgoId);
         // console.log(res)
         if (res === undefined) {
             this.publishButton.current.style.display = 'block'; //unhide publish button if failed to publish blog
@@ -84,18 +85,24 @@ class Editor extends React.Component {
                 <Nav sticky="true" transp="false" />
                 {this.state.redirectStatus === true && <Redirect to={`/blog/${this.state.heading}?id=${this.state.blgoId}`} />}
                 {this.state.pageNotFound === true && <Redirect to={`/blog/pagenotfound`} />}
-                <ReactQuill className="text_editor"
-                    theme={this.state.theme}
-                    onChange={this.handleChange}
-                    value={this.state.editorHtml}
-                    modules={Editor.modules}
-                    formats={Editor.formats}
-                    bounds={'.app'}
-                    placeholder={'Type here...'}
-                />
-                <div style={{ background: 'white' }} className="p-2">
-                    <div style={{ maxWidth: '800px' }} className="mx-auto"  >
-                        <button className="my-btn border-0" ref={this.publishButton} onClick={this.postBlog} >Publish</button>
+                <div className="d-md-none py-5" id="main_container">
+                    <img src={imageUrl} style={{width:'100%'}}/>
+                    <p className="text">This page only works in Desktop</p>
+                </div>
+                <div className="d-none d-md-block">
+                    <ReactQuill className="text_editor"
+                        theme={this.state.theme}
+                        onChange={this.handleChange}
+                        value={this.state.editorHtml}
+                        modules={Editor.modules}
+                        formats={Editor.formats}
+                        bounds={'.app'}
+                        placeholder={'Type here...'}
+                    />
+                    <div style={{ background: 'white' }} className="p-2">
+                        <div style={{ maxWidth: '800px' }} className="mx-auto"  >
+                            <button className="my-btn border-0" ref={this.publishButton} onClick={this.postBlog} >Publish</button>
+                        </div>
                     </div>
                 </div>
             </>
