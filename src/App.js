@@ -6,6 +6,7 @@ import Footer from "./components/footer";
 import Events from "./components/Events/Event";
 import pagenotfound from './components/pagenotfound'
 import Loader from "react-loader-spinner";
+import Nav from './components/Nav/Nav'
 const BlogApp = lazy(() => import('./components/Blogs/BlogApp'));
 // import Timeline from "./components/Timeline/timeline";
 class App extends React.Component {
@@ -15,7 +16,7 @@ class App extends React.Component {
         <div id="wrapper" className="d-flex flex-column">
           <main className="flex-fill">
             <Router>
-              <Suspense fallback={<div className="d-flex justify-content-center pt-5"><Loader type="TailSpin" color="#00BFFF" height={100} width={100} /></div>}>
+              <Suspense fallback={<div className="d-flex justify-content-center pt-5"><Nav sticky="false" transp="false" /><Loader type="TailSpin" className="pt-5" color="#00BFFF" height={100} width={100} /></div>}>
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/members" component={Members} />
