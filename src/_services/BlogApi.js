@@ -47,9 +47,34 @@ class BlogApi {
       blogId: blog_id, //blog id will be -1 if we are wrtting blog and will have a valid id in case if we are editing a blog.
       token: token
     }
-    let res_=undefined;
+    let res_ = undefined;
     mynoty.show("Wait while your blog get posted", 1)
-    await axios.post(url, data_to_send)
+    if (data_to_send.blogId === -1) {
+      await axios.post(url, data_to_send)
+        .then(response => {
+          if (response.status === 200) {
+            console.log(response)
+            mynoty.show(response.data.msg, 1)
+            res_ = {
+              id: response.data.id,
+              heading: heading
+            }
+          }
+
+        })
+        .catch(error => {
+          if (error.response !== undefined && error.response.status === 401) { // if backend is offline or user token send expired/invalid
+            // console.log(error.response);
+            mynoty.show(error.response.data, 2)
+          } else if (error.response !== undefined && error.response.status === 403) { //token send  is balid but user in not a club member
+            // console.log(error.response)
+            mynoty.show(error.response.data, 2)
+          } else {
+            mynoty.show("Oops Something Went Wrong", 2) //if  some other error occure at backend
+          }
+        })
+    }else{
+      await axios.put(url, data_to_send)
       .then(response => {
         if (response.status === 200) {
           console.log(response)
@@ -72,7 +97,8 @@ class BlogApi {
           mynoty.show("Oops Something Went Wrong", 2) //if  some other error occure at backend
         }
       })
-      return res_;
+    }
+    return res_;
   }
   async loadBlogWithId(blogid) { //loading specific blog
     let res = await fetch(process.env.REACT_APP_BACKEND_URL + '/getblogs/' + blogid)
@@ -80,32 +106,28 @@ class BlogApi {
     return res
   }
   async loadBlogs() {
-    let res = await fetch(process.env.REACT_APP_BACKEND_URL+ '/getblogs'); //loading all blog with headding and sample text(main content of blog is not loaded here)
+    let res = await fetch(process.env.REACT_APP_BACKEND_URL + '/getblogs'); //loading all blog with headding and sample text(main content of blog is not loaded here)
     res = await res.json()
     return res;
   }
-  async deleteBlog(id,user_email){
-    let res_status=false;
-    await axios.post(process.env.REACT_APP_BACKEND_URL+'/deleteblog',{
-      blogid:id,
-      user_email:user_email,
-      token:await localStorage.getItem('token')
-    })
-    .then((res)=>{
-      if(res.status===200){
-        mynoty.show(res.data,1);
-        res_status=true;
-      }
-    })
-    .catch((error)=>{
-      console.log(error)
-      if(error.response!==undefined && (error.response.status===403 || error.response.status===401)){ //if backend is offline or invalid/expired token or if someone is deleting the blog which is not written by him.
-        mynoty.show(error.response.data, 2)
-      }else{
-        mynoty.show("Oops Something Went Wrong", 2) //any other internal error at server
-      }
-      res_status=true;
-    })
+  async deleteBlog(id) {
+    let res_status = false;
+    await axios.delete(process.env.REACT_APP_BACKEND_URL + '/deleteblog',{ data: { id:id,token:await localStorage.getItem('token') }})
+      .then((res) => {
+        if (res.status === 200) {
+          mynoty.show(res.data, 1);
+          res_status = true;
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        if (error.response !== undefined && (error.response.status === 403 || error.response.status === 401)) { //if backend is offline or invalid/expired token or if someone is deleting the blog which is not written by him.
+          mynoty.show(error.response.data, 2)
+        } else {
+          mynoty.show("Oops Something Went Wrong", 2) //any other internal error at server
+        }
+        res_status = true;
+      })
     return res_status;
   }
 }
