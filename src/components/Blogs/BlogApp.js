@@ -12,7 +12,7 @@ class BlogApp extends Component {
         super(props)
         this.path = matchPath()
         this.state = {
-            logedIn: true,
+            logedIn: false,
         }
     }
     componentDidMount = async () => {

@@ -7,7 +7,6 @@ import BlogApi from "../../_services/BlogApi";
 import queryString from 'query-string';
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from 'react-router-dom'
-import mynoty from '../mynoty'
 import {
     FacebookShareButton,
     // LinkedinShareButton,
@@ -81,11 +80,8 @@ class BlogDisplay extends Component {
     }
     deleteBlog= async()=>{
         let blogid=this.state.blogId;
-        let email=prompt("Pleasee enter your email");
-        if(email===""){
-            mynoty.show("Please enter a valid email",2)
-        }else{
-            let res= await BlogApi.deleteBlog(blogid,email);
+        if(window.confirm("Delete Blog ?")){
+            let res= await BlogApi.deleteBlog(blogid);
             if(res===true){
                 this.setState({redirectstatus:true})
             }
@@ -108,7 +104,7 @@ class BlogDisplay extends Component {
                 <Nav sticky="false" transp="false" />
                 <div className="position-fixed  share-icon" >
                     {/* facebook sharring is giving error  */}
-                    <img src="https://img.icons8.com/metro/26/000000/share.png" className="d-block pb-2"/>
+                    {/* <img src="https://img.icons8.com/metro/26/000000/share.png" alt="" className="d-block pb-2"/> */}
                     <FacebookShareButton url={window.location.href}>
                         <FacebookIcon size={32} round={true}></FacebookIcon>
                     </FacebookShareButton>

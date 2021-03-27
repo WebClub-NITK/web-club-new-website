@@ -86,7 +86,7 @@ class Editor extends React.Component {
                 {this.state.redirectStatus === true && <Redirect to={`/blog/${this.state.heading}?id=${this.state.blgoId}`} />}
                 {this.state.pageNotFound === true && <Redirect to={`/blog/pagenotfound`} />}
                 <div className="d-md-none py-5" id="main_container">
-                    <img src={imageUrl} style={{width:'100%'}}/>
+                    <img src={imageUrl} style={{width:'100%'}} alt=""/>
                     <p className="text">This page only works in Desktop</p>
                 </div>
                 <div className="d-none d-md-block">
