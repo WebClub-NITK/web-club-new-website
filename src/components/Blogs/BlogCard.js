@@ -40,7 +40,6 @@ class BlogCard extends Component {
                                     <li className="date">{this.props.date}</li>
                                 </ul>
                             </div>
-
                             <div className="description text-dark ">
                                 <h1 className="py-3" >{this.props.heading}</h1>
                                 <p ref={this.htmlContent} className="py-1"> </p>
@@ -48,7 +47,6 @@ class BlogCard extends Component {
                                     {this.state.tagList}
                                 </ul>
                             </div>
-
                         </div>
                     </div>
                 </Link>

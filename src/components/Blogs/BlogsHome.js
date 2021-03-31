@@ -32,7 +32,7 @@ class BlogHome extends React.Component {
             loaderStatus: true,
             blogsPerPage: 10,
             currentPage: 1,
-            redirectToHome: 0
+            redirectToEditor: 0
         };
         this.searchBlogs = this.searchBlogs.bind(this)
     }
@@ -98,7 +98,7 @@ class BlogHome extends React.Component {
         if (res === true) {
             this.props.login();
             this.setState({
-                redirectToHome: true
+                redirectToEditor: true
             })
         }else{
             this.props.logout();
@@ -126,7 +126,7 @@ class BlogHome extends React.Component {
     //     Axios.post(urlApi.backendDomain()+'/create_club_member_data',userdata);
     // }
     render() {
-        const { blogsPerPage, loaderStatus, allBlogs, currentPage, redirectToHome } = this.state
+        const { blogsPerPage, loaderStatus, allBlogs, currentPage, redirectToEditor } = this.state
         let loaderContent = null;
         if (loaderStatus) {
             loaderContent = <Loader type="TailSpin" color="#00BFFF" height={100} width={100} />
@@ -143,7 +143,7 @@ class BlogHome extends React.Component {
                     <title>Blogs</title>
                 </Helmet>
                 <div>
-                    {redirectToHome && <Redirect to={"blog/editor"} />}
+                    {redirectToEditor && <Redirect to={"/blog/editor"} />}
                     <div>
                         <Nav sticky="false" transp="false" />
                         <div className="main-image center-flex" style={{ background: 'white' }}>
