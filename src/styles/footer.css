@@ -1,8 +1,42 @@
 .footer-link {
   color: white;
   transition: all 0.2s ease-in-out;
+  /* margin-top: 5%; */
 }
 
 .footer-link:hover {
   color: #1490e4;
+}
+#go-top {
+  position: relative;
+  top: -44px;
+  padding-left: 50%;
+  right: auto;
+  margin-left: -30px;
+}
+
+#go-top button{
+  text-decoration: none;
+  border: none;
+  display: block;
+  width: 60px;
+  height: 60px;
+  background-color: rgb(91, 90, 97);
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  color: #fff;
+  font-size: 21px;
+  line-height: 60px;
+  border-radius: 100%;
+  text-align: center;
+  scroll-behavior: smooth;
+}
+
+#go-top button:hover, #go-top button:focus { 
+  background-color: #0F9095;
+  transform: translateY(-2px); 
+  outline: none;
 }
