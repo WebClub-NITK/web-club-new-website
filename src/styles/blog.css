@@ -140,6 +140,12 @@ user-select: none;
     color: #16181a !important ;
     
 }
+
+.blog-card-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .blog-card {
     display: flex;
     flex-direction: column;

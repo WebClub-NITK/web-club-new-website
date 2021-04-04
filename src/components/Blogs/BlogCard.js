@@ -30,26 +30,28 @@ class BlogCard extends Component {
     render() {
         return (
             <>
-                <Link to={"/blog/" + this.state.heading + "?id=" + this.props.blogsid} className="col-12" style={{ textDecoration: 'none' }}>
-                    <div className="col-12 m-0">
-                        <div className="blog-card my-2">
-                            <div className="meta">
-                                <div className="photo" style={{ background: this.props.color }}><span ref={this.headingFirstChar}></span></div>
-                                <ul className="details">
-                                    <li className="author py-3">{this.props.writer}</li>
-                                    <li className="date">{this.props.date}</li>
-                                </ul>
+                <div className="col-12">
+                    <div className='blog-card-container'>
+                        <Link to={"/blog/" + this.state.heading + "?id=" + this.props.blogsid} style={{ textDecoration: 'none' }}>
+                            <div className="blog-card">
+                                <div className="meta">
+                                    <div className="photo" style={{ background: this.props.color }}><span ref={this.headingFirstChar}></span></div>
+                                    <ul className="details">
+                                        <li className="author py-3">{this.props.writer}</li>
+                                        <li className="date">{this.props.date}</li>
+                                    </ul>
+                                </div>
+                                <div className="description text-dark ">
+                                    <h1 className="py-3" >{this.props.heading}</h1>
+                                    <p ref={this.htmlContent} className="py-1"> </p>
+                                    <ul className="tags list-inline pt-2">
+                                        {this.state.tagList}
+                                    </ul>
+                                </div>
                             </div>
-                            <div className="description text-dark ">
-                                <h1 className="py-3" >{this.props.heading}</h1>
-                                <p ref={this.htmlContent} className="py-1"> </p>
-                                <ul className="tags list-inline pt-2">
-                                    {this.state.tagList}
-                                </ul>
-                            </div>
-                        </div>
+                        </Link>
                     </div>
-                </Link>
+                </div>
             </>
         )
     }
