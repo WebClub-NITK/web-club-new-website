@@ -182,7 +182,7 @@ class BlogHome extends React.Component {
                                     {loaderContent}
                                 </div>
                                 {blogstoshow}
-                                <div className="col-12 pt-2 d-flex justify-content-center ">
+                                <div className="col-12 py-4 d-flex justify-content-center ">
                                     <ReactPaginate pageCount={noOfPages}
                                         onPageChange={this.handlePageClick}
                                         breakClassName={'page-item'}
