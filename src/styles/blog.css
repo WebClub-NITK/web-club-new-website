@@ -254,6 +254,7 @@ user-select: none;
     padding: 5px 10px;
     border-radius: 4px;
     text-transform: capitalize;
+    margin-bottom: 0.5rem;
 }
 .blog-card .description .tags li a:hover{
     color: white;
