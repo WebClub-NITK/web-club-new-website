@@ -20,6 +20,7 @@
         "mixitup": "^3.3.1",
         "noty": "^3.2.0-beta-deprecated",
         "react": "^16.12.0",
+        "react-bootstrap": "^1.5.2",
         "react-dom": "^16.12.0",
         "react-google-login": "^5.2.2",
         "react-helmet": "^5.2.1",
