@@ -5,6 +5,7 @@ import AuthApi from './../../_services/AuthApi'
 import BlogDisplay from './BlogDisplay'
 import pagenotfound from '../pagenotfound'
 import Editor from './editor'
+import WriteBlog from './WriteBlog'
 
 // import pagenotfound from './../pagenotfound'
 class BlogApp extends Component {
@@ -40,8 +41,11 @@ class BlogApp extends Component {
 
 
             <Switch>
-                <Route exact path={`/blog`}>
+                <Route exact path='/blog'>
                     <BlogHome isLogedIn={this.state.logedIn} login={this.login} logout={this.logout} {...this.props} />
+                </Route>
+                <Route exact path='/blog/new'>
+                    <WriteBlog isLogedIn={this.state.logedIn} login={this.login} logout={this.logout} {...this.props}/>
                 </Route>
                 {this.state.logedIn && <Route exact path="/blog/editor" >
                     <Editor isLogedIn={this.state.logedIn} login={this.login} logout={this.logout} {...this.props} />
