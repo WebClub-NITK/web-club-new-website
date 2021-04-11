@@ -43,11 +43,12 @@ class BlogHome extends React.Component {
     }
     hideSearchContainer = () => {
         this.searchResultContainer.current.style.display = "none";//changeing style of blogs search when focus-out
-        this.searchForm.current.style.borderRadius = '24px';
+        this.searchForm.current.style.borderRadius = '18px';
     }
     async searchBlogs(event) { //sorting blogs on key press  based on tags linear iterations and swaping
         event.preventDefault();
         let inputValue = this.searchInput.current.value;
+        inputValue=inputValue.toLowerCase();
         let temp = this.state.allBlogs
         // console.log(temp)
         let k = 0;
@@ -105,7 +106,7 @@ class BlogHome extends React.Component {
                         <Nav sticky="false" transp="false" />
                         <div className="container" >
                             <div className="row">
-                                <div className="col-12 p-0 m-0">
+                                <div className="col-12 px-3 m-0">
                                     <form style={{marginTop: "80px"}} action="#" id="subject_search_form" ref={this.searchForm}>
                                         <input type="search" name="search" ref={this.searchInput} autoComplete="off" id="subject_search_input" placeholder="Search topic tag" onFocus={this.showSearchContainer} onBlur={this.hideSearchContainer} onKeyUp={this.searchBlogs} />
                                         <button type="submit" onClick={this.searchBlogs} className="pl-3"><svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="search_icon" ><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></button>

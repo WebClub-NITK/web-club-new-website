@@ -66,7 +66,7 @@ class BlogDisplay extends Component {
             let tag_list = []
             let counter = 0;
             for (let i = 0; i < res.tag_list.length; i++) {
-                tag_list.push(<li className="list-inline-item" key={counter++} style={{ background: '#1490e4', padding: '5px 10px', borderRadius: '4px',color:'white' }} >{res.tag_list[i]}</li>)
+                tag_list.push(<li className="list-inline-item text-capitalize" key={counter++} style={{ background: '#1490e4', padding: '5px 10px', borderRadius: '4px',color:'white' }} >{res.tag_list[i]}</li>)
             }
             this.setState({
                 content: temp,
@@ -122,7 +122,7 @@ class BlogDisplay extends Component {
                 {loaderContent}
                 {this.state.content}
                 <div className="bg-light" style={{ display: 'none' }} ref={this.editblogdiv}>
-                    <div style={{ maxWidth: '1000px' }} className="mx-auto py-3">
+                    <div style={{ maxWidth: '1000px' }} className="mx-auto px-3 pb-3">
                         <ul className="tags list-inline">
                             {this.state.tagList_}
                         </ul>

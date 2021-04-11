@@ -109,7 +109,7 @@ class Editor extends React.Component {
                         <div style={{ maxWidth: '800px' }} className="mx-auto"  >
                             <button className="my-btn border-10" ref={this.publishButton} onClick={this.postBlog} >Publish</button>
                             <Link to="/blog">
-                              <button className="my-btn border-10" type="button">
+                              <button className="my-btn border-10 ml-2" type="button">
                               <FontAwesomeIcon icon={faArrowLeft} /> Back
                               </button>
                             </Link>

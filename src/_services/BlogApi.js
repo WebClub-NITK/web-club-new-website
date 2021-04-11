@@ -32,7 +32,7 @@ class BlogApi {
     // console.log(heading)
     let tag_list = []
     data = data.replace(/#[a-zA-Z_-]+/g, function (x) {
-      tag_list.push(x.substr(1));
+      tag_list.push(x.substr(1).toLowerCase());
       return '';
     })
     // console.log(tag_list)
