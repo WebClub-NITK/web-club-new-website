@@ -1,6 +1,6 @@
 class UrlApi{
     getBackend(){
-        return 'https://wecbackend.nitk.ac.in/'
+        return 'https://wecbackend.nitk.ac.in'
     }
 }
 const instance =new UrlApi();
