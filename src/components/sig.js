@@ -1,6 +1,6 @@
 import React from "react";
 import algoImg from "../assets/images/algo.png";
-import devImg from "../assets/images/dev.jpg";
+import devImg from "../assets/images/dev.png";
 import intelligenceImg from "../assets/images/intelligence.png";
 import systemsImg from "../assets/images/systems.png";
 import "../styles/sig.css";
@@ -35,7 +35,7 @@ export default function SIG() {
             style={{ backgroundImage: `url(${devImg})` }}
           ></div>
           <div className="sig-details col-lg-6 order-lg-1  showcase-text">
-            <h2>Development Group (DSC)</h2>
+            <h2>Google Developer Student Clubs</h2>
             <p className="lead mb-0">
               We focus on helping students bridge the gap between theory and
               practice in software development. Students grow their knowledge in
