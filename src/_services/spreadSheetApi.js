@@ -1,15 +1,14 @@
 class SpreadSheetApi {
   async getWorkSheetData(workSheetId) {
-    const url = `https://spreadsheets.google.com/feeds/list/${workSheetId}/od6/public/values?alt=json`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${workSheetId}/values/Sheet1?key=${process.env.REACT_APP_SHEETS_API_KEY}`;
     const data = await (await fetch(url)).json();
+    const keys = data.values.shift();
 
-    return data.feed.entry.map(entry => {
-      let obj={};
-      Object.keys(entry)
-      .filter(key => key.startsWith('gsx$'))
-      .forEach(key => {
-        obj[key.replace('gsx$','')]=entry[key]['$t'];
-      })
+    return data.values.map(entry => {
+      let obj = {};
+      entry.forEach((item, j) => {
+        obj[keys[j]] = item;
+      });
       return obj;
     });
   }
