@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.a6e2f57d.chunk.css",
-    "main.js": "/static/js/main.b85c6861.chunk.js",
-    "main.js.map": "/static/js/main.b85c6861.chunk.js.map",
+    "main.js": "/static/js/main.bf06875e.chunk.js",
+    "main.js.map": "/static/js/main.bf06875e.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.6654513f.js",
     "runtime-main.js.map": "/static/js/runtime-main.6654513f.js.map",
-    "static/js/2.0b50d57c.chunk.js": "/static/js/2.0b50d57c.chunk.js",
-    "static/js/2.0b50d57c.chunk.js.map": "/static/js/2.0b50d57c.chunk.js.map",
+    "static/js/2.6794a742.chunk.js": "/static/js/2.6794a742.chunk.js",
+    "static/js/2.6794a742.chunk.js.map": "/static/js/2.6794a742.chunk.js.map",
     "static/css/3.01fdd8dc.chunk.css": "/static/css/3.01fdd8dc.chunk.css",
     "static/js/3.53def317.chunk.js": "/static/js/3.53def317.chunk.js",
     "static/js/3.53def317.chunk.js.map": "/static/js/3.53def317.chunk.js.map",
@@ -14,12 +14,12 @@
     "static/js/4.364906da.chunk.js": "/static/js/4.364906da.chunk.js",
     "static/js/4.364906da.chunk.js.map": "/static/js/4.364906da.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.d14cc346645dc4676b0a42c95ca495ad.js": "/precache-manifest.d14cc346645dc4676b0a42c95ca495ad.js",
+    "precache-manifest.9cc9d6fa289123610b0eb7add49c622d.js": "/precache-manifest.9cc9d6fa289123610b0eb7add49c622d.js",
     "service-worker.js": "/service-worker.js",
     "static/css/3.01fdd8dc.chunk.css.map": "/static/css/3.01fdd8dc.chunk.css.map",
     "static/css/4.c21e1bd0.chunk.css.map": "/static/css/4.c21e1bd0.chunk.css.map",
     "static/css/main.a6e2f57d.chunk.css.map": "/static/css/main.a6e2f57d.chunk.css.map",
-    "static/js/2.0b50d57c.chunk.js.LICENSE": "/static/js/2.0b50d57c.chunk.js.LICENSE",
+    "static/js/2.6794a742.chunk.js.LICENSE": "/static/js/2.6794a742.chunk.js.LICENSE",
     "static/js/3.53def317.chunk.js.LICENSE": "/static/js/3.53def317.chunk.js.LICENSE",
     "static/media/16CO104.JPG": "/static/media/16CO104.a8a858c8.JPG",
     "static/media/16CO125.jpg": "/static/media/16CO125.068125ac.jpg",
@@ -149,8 +149,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.6654513f.js",
-    "static/js/2.0b50d57c.chunk.js",
+    "static/js/2.6794a742.chunk.js",
     "static/css/main.a6e2f57d.chunk.css",
-    "static/js/main.b85c6861.chunk.js"
+    "static/js/main.bf06875e.chunk.js"
   ]
 }
