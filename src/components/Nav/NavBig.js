@@ -81,6 +81,9 @@ const Nav = (props) => {
           <Link to="/members" style={linkStyle}>
             Team
           </Link>
+          <a href="https://webclub.nitk.ac.in/blog" style={linkStyle}>
+            Blogs
+          </a>
           {/* <Link to="/timeline" style={linkStyle}>
             Timeline
           </Link> */}

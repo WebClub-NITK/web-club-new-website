@@ -53,6 +53,9 @@ const Menu = ({ open, setOpen }) => {
             <Link to="/members" onClick={() => setOpen(!open)}>
                 Team
             </Link>
+            <a href="https://webclub.nitk.ac.in/blog">
+                Blogs
+            </a>
             {/* <Link to="/timeline" onClick={() => setOpen(!open)}>
                 Timeline
             </Link> */}
