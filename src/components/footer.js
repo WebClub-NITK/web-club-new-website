@@ -45,7 +45,7 @@ export default function footer() {
                 </a>
               </span>
             </p>
-            <p>Faculty Advisor: Professor Sowmya Kamath S</p>
+            <p>Faculty Advisor: Professor Saumya Hegde</p>
           </div>
 
           <hr className="clearfix w-100 d-md-none" />
