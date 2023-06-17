@@ -76,7 +76,7 @@ export default function ScrollableTabsButtonForce() {
           <Tab label="All" data-filter=".Current" icon={<GroupIcon />} {...a11yProps(0)} />
           <Tab label="Core" data-filter=".Core" icon={<PersonPinIcon />} {...a11yProps(1)} />
           <Tab label="Systems" data-filter=".Systems" icon={<MemoryIcon />} {...a11yProps(2)} />
-          <Tab label="DSC" data-filter=".DSC" icon={<DeveloperModeIcon />} {...a11yProps(3)} />
+          <Tab label="GDSC" data-filter=".GDSC" icon={<DeveloperModeIcon />} {...a11yProps(3)} />
           <Tab label="Intelligence" data-filter=".Intelligence" icon={<FingerprintIcon />} {...a11yProps(4)} />
           <Tab label="Algorithms" data-filter=".Algorithms" icon={<AccountTreeIcon />} {...a11yProps(5)} />
           <Tab label="Alumni" data-filter=".Alumni" icon={<PublicIcon />} {...a11yProps(6)} />

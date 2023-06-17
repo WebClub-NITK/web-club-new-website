@@ -48,15 +48,23 @@ class Members extends React.Component {
     let extensions = ["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"];
 
     finalArray.forEach((val) => {
+      let imageFound = false;
+      const trimmedId = val.id.trim(); // Remove leading/trailing whitespace
       for (let extension of extensions) {
-        try{
-          val.imageURL = require(`../../assets/images/profile-pics/${val.id}.${extension}`)
+        try {
+          val.imageURL = require(`../../assets/images/profile-pics/${trimmedId}.${extension}`);
+          console.log(`Image found for ${val.Name}`);
+          imageFound = true;
           break;
-        } catch(err) {
-          val.imageURL = defaultPic;
+        } catch (err) {
+          console.log(`No image found for ${val.Name}`);
         }
       }
-    })
+      if (!imageFound) {
+        val.imageURL = defaultPic;
+      }
+    });
+  
 
 
     // use the below code to load images from another github repository
@@ -109,52 +117,50 @@ class Members extends React.Component {
           <div className="controls">
             <Navbar />
           </div>
-
-          <div class="memberContainer">
-            {this.state.membersData.map((value) => {
-              // if the role includes the term Alumni then render the card in Alumni section
-              if(value.role.includes("alumni")) {
-                return (
-                  <MemberCard
-                    classs={"Alumni"}
-                    name={value.name}
-                    role={value.role.replace(" alumni", ", Class of " + value.classof)}
-                    email={value.email}
-                    githuburl={value.githuburl}
-                    linkedinurl={value.linkedinurl}
-                    image={value.imageURL}
-                    key={value.name}
-                  />
-                );
-              } else if (value.role !== "Club Member") {
-                // if the role is not Club Member then render the card in Core section
-                return (
-                  <MemberCard
-                    classs={value.sig + " Core Current"}
-                    name={value.name}
-                    role={value.role}
-                    email={value.email}
-                    githuburl={value.githuburl}
-                    linkedinurl={value.linkedinurl}
-                    image={value.imageURL}
-                    key={value.name}
-                  />
-                );
-              } else {
-                return (
-                  <MemberCard
-                    classs={value.sig + " Current"}
-                    name={value.name}
-                    role={value.role}
-                    email={value.email}
-                    githuburl={value.githuburl}
-                    linkedinurl={value.linkedinurl}
-                    image={value.imageURL}
-                    key={value.name}
-                  />
-                );
-              }
-            })}
+          <div className="memberContainer">
+           {this.state.membersData.map((value) => {
+           // if the role includes the term Alumni then render the card in Alumni section
+           if (value.Position.includes("alumni")) {
+    return (
+      <MemberCard
+        className={"Alumni"}
+        Name={value.Name}
+        Position={value.Position.replace(" alumni", ", Class of " + value.batch)}
+        Email={value.Email}
+        githuburl={value.githuburl}
+        linkedinurl={value.linkedinurl}
+        imageURL={value.imageURL}
+        key={value.Name}
+      />
+    );
+  } else if (value.Position !== "Club Member") {
+    return (
+      <MemberCard
+        className={value.sig + " Core Current"}
+        Name={value.Name}
+        Position={value.Position}
+        Email={value.Email}
+        githuburl={value.githuburl}
+        linkedinurl={value.linkedinurl}
+        imageURL={value.imageURL}
+        key={value.Name}
+      />
+    );
+  } else {
+    return (
+      <MemberCard
+        className={value.sig + " Current"}
+        Name={value.Name}
+        Position={value.Position}
+        Email={value.Email}
+        githuburl={value.githuburl}
+        linkedinurl={value.linkedinurl}
+        imageURL={value.imageURL}
+        key={value.Name}
+      />
+    );
+  }
+})}
           </div>
         </div>
       );
@@ -171,3 +177,4 @@ class Members extends React.Component {
 }
 
 export default Members;
+  
