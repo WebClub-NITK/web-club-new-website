@@ -6,7 +6,7 @@ import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 function MemberCard(props) {
-  console.log(props.imageURL);
+  // console.log(props.imageURL);
   return (
     <div className={"con mix " + props.className}>
       <div className="card" data-aos="flip-left">

@@ -53,11 +53,11 @@ class Members extends React.Component {
       for (let extension of extensions) {
         try {
           val.imageURL = require(`../../assets/images/profile-pics/${trimmedId}.${extension}`);
-          console.log(`Image found for ${val.Name}`);
+          // console.log(`Image found for ${val.Name}`);
           imageFound = true;
           break;
         } catch (err) {
-          console.log(`No image found for ${val.Name}`);
+          // console.log(`No image found for ${val.Name}`);
         }
       }
       if (!imageFound) {
